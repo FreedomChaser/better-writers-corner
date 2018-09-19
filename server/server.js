@@ -83,6 +83,28 @@ app.get('/api/getStories', async (req, res) => {
     res.send({count, stories})
 })
 
+app.delete('/api/deleteStory/:storyid', async(req, res) => {
+    const db = req.app.get('db')
+    let {userid} = req.session
+    let {storyid} = req.params
+
+    let deletedChara = await db.characters.delete_all(userid, storyid)
+    //will eventually need to add a plot AND plot tree delete all
+    let deletedStory = await db.stories.delete_story(userid, storyid)
+
+    res.sendStatus(200)
+})
+
+app.post('/api/addStory', async (req, res) => {
+    const db = req.app.get('db')
+    let {userid} = req.session
+    let {title} = req.body
+
+    let addedStory = db.stories.add_story(userid, title)
+
+    res.sendStatus(200)
+})
+
 
 
 app.get('/api/logout', (req, res) => {
