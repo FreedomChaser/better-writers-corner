@@ -1,0 +1,1 @@
+create table users(userID serial primary key, username varchar(80), email varchar(200), authID text) 
