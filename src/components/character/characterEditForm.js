@@ -1,13 +1,13 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux'
-import { updateUserid, updateFirstName, updateLastName, updateGender, updateHairColor, updateEyeColor, updateHobby } from '../ducks/reducer'
+import { updateUserid, updateFirstName, updateLastName, updateGender, updateHairColor, updateEyeColor, updateHobby, updateAge, updateOccupation, updateDD_alignment, updateSpecial_abilities } from '../ducks/reducer'
 
 //pull character info to use as default values for input boxes(like helo)
 //mimic form for helo, but with input rather than selection boxes
 //parent div, an on hover function, position absolute and z-index
-class CharacterForm extends Component{
-    constructor(){
+class CharacterForm extends Component {
+    constructor() {
         super()
 
         this.state = {
@@ -16,65 +16,155 @@ class CharacterForm extends Component{
             gender: '',
             hair_color: '',
             eye_color: '',
-            hobby: '',                      
+            age: 0,
+            occupation: '',
+            dd_alignment: '',
+            special_abilities: '',
+            hobby: '',
         }
         this.clearState = this.clearState.bind(this)
-        this.updateUser = this.updateUser.bind(this)
+        this.resetState = this.resetState.bind(this)
+        // this.updateUser = this.updateUser.bind(this)
+        this.getCharaByid = this.getCharaByid.bind(this)
+        this.cancelBtn = this.cancelBtn.bind(this)
     }
-    componentDidMount(){
-        if(!this.props.userid){
+    componentDidMount() {
+        if (!this.props.userid) {
             axios.get('/api/userData')
-            .then(res => {
-                console.log(res)
-                this.props.updateUserid(res.data.userid)
-                axios.get('/api/getCharaByid')
-                .then((res) => {this.setState({
-                    first_name: res.data.first_name,
-                    last_name: res.data.last_name,
-                    gender: res.data.gender,
-                    hair_color: res.data.hair_color,
-                    eye_color: res.data.eye_color,
-                    hobby: res.data.hobby,                    
-            })
-                this.props.updateFirstName(res.data.first_name)
-                this.props.updateLastName(res.data.last_name)
-                this.props.updateGender(res.data.gender)
-                this.props.updateHairColor(res.data.hair_color)
-                this.props.updateEyeColor(res.data.eye_color)
-                this.props.updateHobby(res.data.hobby)                
-            })  
-            }).catch(err => {
-                this.props.history.push('/')
-            })
-        }else{
-            axios.get('/api/getChara')
-            .then((res) => {this.setState({
-                first_name: res.data.first_name,
-                last_name: res.data.last_name,
-                gender: res.data.gender,
-                hair_color: res.data.hair_color,
-                eye_color: res.data.eye_color,
-                hobby: res.data.hobby,                
-        })
-                this.props.updateFirstName(res.data.first_name)
-                this.props.updateLastName(res.data.last_name)
-                this.props.updateGender(res.data.gender)
-                this.props.updateHairColor(res.data.hair_color)
-                this.props.updateEyeColor(res.data.eye_color)
-                this.props.updateHobby(res.data.hobby)                
-    })  
-    }     
+                .then(res => {
+                    console.log(res)
+                    this.props.updateUserid(res.data.userid)
+                    this.getCharaByid()
+                }).catch(err => {
+                    this.props.history.push('/')
+                })
+        } else {
+            this.getCharaByid()
+        }
     }
 
-    getCharaByid(){}
+    getCharaByid() {
+        let storyid = this.props.match.params.storyid
+        let characterid = this.props.match.params.characterid
+        axios.get(`/api/getCharaByid/${storyid}/${characterid}`)
+            .then((res) => {
+                console.log(res)
+                this.setState({
+                    first_name: res.data[0].first_name,
+                    last_name: res.data[0].last_name,
+                    gender: res.data[0].gender,
+                    hair_color: res.data[0].hair_color,
+                    eye_color: res.data[0].eye_color,
+                    hobby: res.data[0].hobby,
+                    age: res.data[0].age,
+                    occupation: res.data[0].occupation,
+                    dd_alignment: res.data[0].dd_alignment,
+                    special_abilities: res.data[0].special_abilities
+                })
+                this.props.updateFirstName(res.data[0].first_name)
+                this.props.updateLastName(res.data[0].last_name)
+                this.props.updateGender(res.data[0].gender)
+                this.props.updateHairColor(res.data[0].hair_color)
+                this.props.updateEyeColor(res.data[0].eye_color)
+                this.props.updateHobby(res.data[0].hobby)
+                this.props.updateAge(res.data[0].age)
+                this.props.updateOccupation(res.data[0].occupation)
+                this.props.updateDD_alignment(res.data[0].dd_alignment)
+                this.props.updateSpecial_abilities(res.data[0].special_abilities)
+            })
+    }
+
+    clearState(val) {
+        switch(val){            
+            case first_name:
+                return this.setState({first_name: ''})
+            case last_name:
+                return this.setState({last_name: ''})
+            case gender:
+                return this.setState({gender: ''})
+            case hair_color:
+                return this.setState({hair_color: ''})
+            case eye_color:
+                return this.setState({eye_color: ''})
+            case age:
+                return this.setState({age: 0})
+            case occupation:
+                return this.setState({occupation: ''})
+            case dd_alignment:
+                return this.setState({dd_alignment: ''})
+            case special_abilities:
+                return this.setState({special_abilities: ''})
+            case hobby:
+                return this.setState({hobby: ''})      
+            default: return this.state            
+        }
+        this.setState({
+            first_name: '',
+            last_name: '',
+            gender: '',
+            hair_color: '',
+            eye_color: '',
+            age: 0,
+            occupation: '',
+            dd_alignment: '',
+            special_abilities: '',
+            hobby: '',
+        })
+    }
+
+    resetState() {
+        this.setState({
+            first_name: this.props.first_name,
+            last_name: this.props.last_name,
+            gender: this.props.gender,
+            hair_color: this.props.hair_color,
+            eye_color: this.props.eye_color,
+            age: this.props.age,
+            occupation: this.props.occupation,
+            dd_alignment: this.props.dd_alignment,
+            special_abilities: this.props.special_abilities,
+            hobby: this.props.hobby,
+        })
+
+    }
+    cancelBtn() {
+        let storyid = this.props.match.params.storyid
+        let title = this.props.match.params.title
+        this.resetState()
+        this.props.history.push(`/characters/${storyid}/${title}`)
+    }
 
 
-    render(){
-        let storyid = this.props.match.params.storyid 
-        return(
-            <div>Character Form
-                <button onClick={() => this.props.history.push(`/characters/${storyid}/`)}>Cancel</button>
-            </div>
+    render() {
+        let storyid = this.props.match.params.storyid
+        let title = this.props.match.params.title
+        let characterid = this.props.match.params.characterid
+        return (
+            <div>
+                <h1>{title}</h1>
+                <h2>{this.state.first_name} {this.state.last_name}</h2>
+                <button onClick={this.cancelBtn}>Cancel</button>
+                <p>First Name:</p>
+                <input className='editChara' value={this.state.first_name} onClick={() => this.clearState(first_name)} onChange={(e) => this.setState({first_name: e.target.value})}></input>
+            <p>Last Name:</p>
+                <input className='editChara' value={this.state.last_name} onClick={() => this.clearState(last_name)} onChange={(e) => this.setState({last_name: e.target.value})}></input>
+            <p>Gender:</p>
+                <input className='editChara' value={this.state.gender} onClick={() => this.clearState(gender)} onChange={(e) => this.setState({gender: e.target.value})}></input>
+            <p>Hair Color:</p>
+                <input className='editChara' value={this.state.hair_color} onClick={() => this.clearState(hair_color)} onChange={(e) => this.setState({hair_color: e.target.value})}></input>
+            <p>Eye Color:</p>
+                <input className='editChara' value={this.state.eye_color} onClick={() => this.clearState(eye_color)} onChange={(e) => this.setState({eye_color: e.target.value})}></input>
+            <p>Age:</p>
+                <input className='editChara' value={this.state.age} onClick={() => this.clearState(age)} onChange={(e) => this.setState({age: e.target.value})}></input>
+            <p>Occupation:</p>
+                <input className='editChara' value={this.state.occupation} onClick={() => this.clearState(occupation)} onChange={(e) => this.setState({occupation: e.target.value})}></input>
+            <p>D&D Alignment:</p>
+                <input className='editChara' value={this.state.dd_alignment} onClick={() => this.clearState(dd_alignment)} onChange={(e) => this.setState({dd_alignment: e.target.value})}></input>
+            <p>Special Abilities:</p>
+                <input className='editChara' value={this.state.special_abilities} onClick={() => this.clearState(special_abilities)} onChange={(e) => this.setState({special_abilities: e.target.value})}></input>
+            <p>Hobby:</p>
+                <input className='editChara' value={this.state.hobby} onClick={() => this.clearState(hobby)} onChange={(e) => this.setState({hobby: e.target.value})}></input>
+            </div >
         )
     }
 }
@@ -87,7 +177,11 @@ function mapStateToProps(reduxState) {
         gender,
         hair_color,
         eye_color,
-        hobby
+        hobby,
+        age,
+        occupation,
+        dd_alignment,
+        special_abilities
     } = reduxState
 
     return {
@@ -97,8 +191,12 @@ function mapStateToProps(reduxState) {
         gender,
         hair_color,
         eye_color,
-        hobby
+        hobby,
+        age,
+        occupation,
+        dd_alignment,
+        special_abilities
     }
 }
 
-export default connect(mapStateToProps, { updateUserid, updateFirstName, updateLastName, updateGender, updateHairColor, updateEyeColor, updateHobby })(CharacterForm)
+export default connect(mapStateToProps, { updateUserid, updateFirstName, updateLastName, updateGender, updateHairColor, updateEyeColor, updateHobby, updateAge, updateOccupation, updateDD_alignment, updateSpecial_abilities })(CharacterForm)

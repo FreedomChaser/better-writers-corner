@@ -3,6 +3,8 @@
 
 //write purchase button with stripe
 // login api
+//edit chara
+//chara popup
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'

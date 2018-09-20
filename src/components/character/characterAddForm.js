@@ -48,7 +48,8 @@ class CharacterForm extends Component {
         let title = this.props.match.params.title
         return (
             <div>
-                <h1>New Character</h1>
+                <h1>{title}</h1>
+                <h2>New Character</h2>
                 <button onClick={() => this.props.history.push(`/characters/${storyid}/${title}`)}>Cancel</button>
 
                 <div>

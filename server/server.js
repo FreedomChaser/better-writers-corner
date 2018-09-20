@@ -138,9 +138,15 @@ app.delete('/api/deleteChara/:storyid/:characterid', async (req, res) => {
 
     res.sendStatus(200)
 })
-// app.get('/api/getCharaByid')
 
+app.get('/api/getCharaByid/:storyid/:characterid', async (req, res) => {
+    const db = req.app.get('db')
+    let {storyid, characterid} = req.params
 
+    let gotCharacter = await db.characters.get_chara_by_id(storyid, characterid)
+    // console.log(gotCharacter)
+    res.send(gotCharacter)
+})
 
 app.get('/api/logout', (req, res) => {
     req.session.destroy()

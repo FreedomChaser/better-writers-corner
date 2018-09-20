@@ -6,6 +6,10 @@ const initialState = {
     hair_color: '',
     eye_color: '',
     hobby: '',
+    age: 0,
+    occupation: '',
+    dd_alignment: '',
+    special_abilities: '' 
 }
 
 const UPDATE_USERID = 'UPDATE_USERID'
@@ -15,6 +19,10 @@ const UPDATE_GENDER = 'UPDATE_GENDER'
 const UPDATE_HAIR_COLOR = 'UPDATE_HAIR_COLOR'
 const UPDATE_EYE_COLOR = 'UPDATE_EYE_COLOR'
 const UPDATE_HOBBY = 'UPDATE_HOBBY'
+const UPDATE_AGE = 'UPDATE_AGE'
+const UPDATE_OCCUPATION = 'UPDATE_OCCUPATION'
+const UPDATE_DD_ALIGNMENT = 'UPDATE_DD_ALIGNMENT'
+const UPDATE_SPECIAL_ABILITIES = 'UPDATE_SPECIAL_ABILITIES'
 
 export function updateUserid(userid){
     return{
@@ -58,6 +66,27 @@ export function updateHobby(hobby){
        payload: hobby
    }
 }
+export function updateAge(age){
+    return{
+        type: UPDATE_AGE,
+        payload: age
+    }
+ }export function updateOccupation(occupation){
+    return{
+        type: UPDATE_OCCUPATION,
+        payload: occupation
+    }
+ }export function updateDD_alignment(dd_alignment){
+    return{
+        type: UPDATE_DD_ALIGNMENT,
+        payload: dd_alignment
+    }
+ }export function updateSpecial_abilities(special_abilities){
+    return{
+        type: UPDATE_SPECIAL_ABILITIES,
+        payload: special_abilities
+    }
+ }
 
 function reducer(state = initialState, action){
     switch(action.type){
@@ -81,6 +110,18 @@ function reducer(state = initialState, action){
 
         case UPDATE_HOBBY:
             return Object.assign({}, state, {hobby: action.payload})
+        
+        case UPDATE_AGE:
+            return Object.assign({}, state, {age: action.payload})
+        
+        case UPDATE_OCCUPATION:
+            return Object.assign({}, state, {occupation: action.payload})
+    
+        case UPDATE_DD_ALIGNMENT:
+            return Object.assign({}, state, {dd_alignment: action.payload})
+        
+        case UPDATE_SPECIAL_ABILITIES:
+            return Object.assign({}, state, {special_abilities: action.payload})
 
         default: return state
     }
