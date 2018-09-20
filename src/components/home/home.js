@@ -96,14 +96,14 @@ class Home extends Component {
         // newTitle[title] = [left, top]
         this.setState({ titles: [left, top], storyid: storyid })
     }
-    subMenuDisplay() {
+    subMenuDisplay(title) {
         let left = this.state.titles[0]
         let top = this.state.titles[1]
 
         if (this.state.subToggle) {
             return (
                 <div className={this.state.subToggle ? 'open sub' : 'sub'} style={this.state.subToggle ? { left, top } : { left: 0, top: 0 }}>
-                    <button onClick={() => this.props.history.push(`/characters/${this.state.storyid}/`)}>Character</button>
+                    <button onClick={() => this.props.history.push(`/characters/${this.state.storyid}/${title}`)}>Character</button>
                     <button onClick={() => this.deleteStory(this.state.storyid)}>Delete</button>
                     {/* <button onClick={() => this.renameStory(this.state.storyid)}>Rename</button> */}
                 </div>
@@ -130,7 +130,7 @@ class Home extends Component {
                         //on click for add story model
                         : <button id="addStoryBtn" onClick={this.toggleModal}>{e.title}</button>
                     }
-                    {this.state.storyid === e.storyid ? this.subMenuDisplay() : null}
+                    {this.state.storyid === e.storyid ? this.subMenuDisplay(e.title) : null}
                 </div>
             )
         })

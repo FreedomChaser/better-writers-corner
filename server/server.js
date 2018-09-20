@@ -105,6 +105,41 @@ app.post('/api/addStory', async (req, res) => {
     res.sendStatus(200)
 })
 
+app.post('/api/addChara/:storyid', async (req, res) => {
+    const db = req.app.get('db')
+    let {storyid} = req.params
+    let {
+        first_name,
+        last_name,
+        gender,
+        hair_color,
+        eye_color,
+        hobby 
+    } = req.body
+
+    let newChara = await db.characters.add_chara(storyid, first_name, last_name, gender, hair_color, eye_color, hobby)
+
+    res.sendStatus(200)
+})
+app.get('/api/getChara/:storyid', async (req, res) => {
+    const db = req.app.get('db')
+    let {storyid} = req.params
+
+    let gotCharacters = await db.characters.get_characters(storyid)
+
+    res.send(gotCharacters)
+})
+
+app.delete('/api/deleteChara/:storyid/:characterid', async (req, res) => {
+    const db = req.app.get('db')
+    let {storyid, characterid} = req.params
+
+    let deletedChara = await db.characters.delete_chara(storyid, characterid)
+
+    res.sendStatus(200)
+})
+// app.get('/api/getCharaByid')
+
 
 
 app.get('/api/logout', (req, res) => {
