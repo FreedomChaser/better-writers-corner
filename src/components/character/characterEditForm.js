@@ -21,6 +21,7 @@ class CharacterForm extends Component {
             dd_alignment: '',
             special_abilities: '',
             hobby: '',
+            undoToggle: false
         }
         // this.clearState = this.clearState.bind(this)
         this.resetState = this.resetState.bind(this)
@@ -90,7 +91,8 @@ class CharacterForm extends Component {
                     age: res.data[0].age,
                     occupation: res.data[0].occupation,
                     dd_alignment: res.data[0].dd_alignment,
-                    special_abilities: res.data[0].special_abilities
+                    special_abilities: res.data[0].special_abilities,
+                    undoToggle: !this.state.undoToggle
                 })
             })
     }
@@ -146,6 +148,7 @@ class CharacterForm extends Component {
             dd_alignment: this.props.dd_alignment,
             special_abilities: this.props.special_abilities,
             hobby: this.props.hobby,
+            undoToggle: !this.state.undoToggle
         })
 
     }
@@ -171,7 +174,20 @@ class CharacterForm extends Component {
     }
 
     resetSave(){
-        <button onClick={this.resetState}>Undo Update</button>
+        this.setState({
+            first_name: this.props.first_name,
+            last_name: this.props.last_name,
+            gender: this.props.gender,
+            hair_color: this.props.hair_color,
+            eye_color: this.props.eye_color,
+            age: this.props.age,
+            occupation: this.props.occupation,
+            dd_alignment: this.props.dd_alignment,
+            special_abilities: this.props.special_abilities,
+            hobby: this.props.hobby,
+            undoToggle: !this.state.undoToggle
+        }, this.updateChara)
+        // <button onClick={this.resetState}>Undo Update</button>
     }
 
     deleteChara(storyid, characterid) {
@@ -192,7 +208,6 @@ class CharacterForm extends Component {
                 <h2>{this.state.first_name} {this.state.last_name}</h2>
                 <button onClick={this.cancelBtn}>Go to main {title} page</button>
                 <button onClick={this.resetState}>Reset</button>
-                {this.props.first_name !== this.state.first_name ? this.resetSave : null}
                 <p>First Name:</p>
                 <input className='editChara' value={this.state.first_name} onClick={() => this.clearState('first_name')} onChange={(e) => this.setState({ first_name: e.target.value })}></input>
                 <p>Last Name:</p>
@@ -214,6 +229,7 @@ class CharacterForm extends Component {
                 <p>Hobby:</p>
                 <input className='editChara' value={this.state.hobby} onClick={() => this.clearState('hobby')} onChange={(e) => this.setState({ hobby: e.target.value })}></input>
                 <button onClick={this.updateChara}>Update</button>
+                {this.state.undoToggle ? <button onClick={this.resetSave}>Undo Update</button> : null}
                 <button onClick={() => this.deleteChara(storyid, characterid)}>Delete Character</button>
 
             </div >
