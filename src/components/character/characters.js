@@ -43,7 +43,6 @@ class Characters extends React.Component {
             })
     }
     deleteChara(storyid, characterid) {
-        console.log('firing')
         axios.delete(`/api/deleteChara/${storyid}/${characterid}`)
             .then(() => this.getChara())
     }
@@ -72,6 +71,9 @@ class Characters extends React.Component {
             )
         }
     }
+    // componentWillUnmount(){
+    //     console.log('unmount')
+    // }
     render() {
         let storyid = this.props.match.params.storyid
         let title = this.props.match.params.title

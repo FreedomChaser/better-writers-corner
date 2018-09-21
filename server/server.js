@@ -114,11 +114,14 @@ app.post('/api/addChara/:storyid', async (req, res) => {
         gender,
         hair_color,
         eye_color,
-        hobby 
+        hobby,
+        age,
+        occupation,
+        dd_alignment,
+        special_abilities 
     } = req.body
 
-    let newChara = await db.characters.add_chara(storyid, first_name, last_name, gender, hair_color, eye_color, hobby)
-
+    let newChara = await db.characters.add_chara(storyid, first_name, last_name, gender, hair_color, eye_color, hobby, age, occupation, dd_alignment, special_abilities)
     res.sendStatus(200)
 })
 app.get('/api/getChara/:storyid', async (req, res) => {
@@ -126,7 +129,6 @@ app.get('/api/getChara/:storyid', async (req, res) => {
     let {storyid} = req.params
 
     let gotCharacters = await db.characters.get_characters(storyid)
-
     res.send(gotCharacters)
 })
 
@@ -146,6 +148,26 @@ app.get('/api/getCharaByid/:storyid/:characterid', async (req, res) => {
     let gotCharacter = await db.characters.get_chara_by_id(storyid, characterid)
     // console.log(gotCharacter)
     res.send(gotCharacter)
+})
+
+app.post('/api/updateChara/:storyid/:characterid', async (req, res) => {
+    const db = req.app.get('db')
+    let {storyid, characterid} = req.params
+    let {
+        first_name,
+        last_name,
+        gender,
+        hair_color,
+        eye_color,
+        hobby,
+        age,
+        occupation,
+        dd_alignment,
+        special_abilities 
+    } = req.body
+
+    let updatedChara = await db.characters.update_chara(storyid, characterid, first_name, last_name, gender, hair_color, eye_color, hobby, age, occupation, dd_alignment, special_abilities)
+    res.sendStatus(200)
 })
 
 app.get('/api/logout', (req, res) => {

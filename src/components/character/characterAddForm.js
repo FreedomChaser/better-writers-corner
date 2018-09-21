@@ -16,6 +16,10 @@ class CharacterForm extends Component {
             gender: '',
             hair_color: '',
             eye_color: '',
+            age: 0,
+            occupation: '',
+            dd_alignment: '',
+            special_abilities: '',
             hobby: '',
         }
         this.addChara = this.addChara.bind(this)
@@ -35,8 +39,13 @@ class CharacterForm extends Component {
     //make axios.post to save character
     addChara(storyid) {
         if (this.state.first_name) {
-            axios.post(`/api/addChara/${storyid}`, { ...this.state })
-                .then(this.props.history.push(`/characters/${storyid}/${this.props.match.params.title}`))
+            let numPattern =  /^[0-9]*$/gm
+            if(numPattern.test(this.state.age)){
+                axios.post(`/api/addChara/${storyid}`, { ...this.state })
+                    .then(() => this.props.history.push(`/characters/${storyid}/${this.props.match.params.title}`))
+            }else{
+                alert('Age must be an integer')
+            }
         }
         else {
             alert('New character must have a first Name')
@@ -73,9 +82,26 @@ class CharacterForm extends Component {
                     <input onChange={(e) => this.setState({ eye_color: e.target.value })}></input>
                 </div>
                 <div>
+                    <p>Age</p>
+                    <input onChange={(e) => this.setState({ age: e.target.value })}></input>
+                </div>
+                <div>
+                    <p>Occupation</p>
+                    <input onChange={(e) => this.setState({ Occupation: e.target.value })}></input>
+                </div>
+                <div>
+                    <p>dd_alignment</p>
+                    <input onChange={(e) => this.setState({ dd_alignment: e.target.value })}></input>
+                </div>
+                <div>
+                    <p>special_abilities</p>
+                    <input onChange={(e) => this.setState({ special_abilities: e.target.value })}></input>
+                </div>
+                <div>
                     <p>Hobby</p>
                     <input onChange={(e) => this.setState({ hobby: e.target.value })}></input>
                 </div>
+                
                 <button onClick={() => this.addChara(storyid)}>Save Character</button>
             </div>
         )
