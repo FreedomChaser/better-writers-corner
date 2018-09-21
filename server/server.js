@@ -4,6 +4,7 @@ const session = require('express-session')
 const axios = require('axios')
 const massive = require('massive')
 const bodyParser = require('body-parser')
+const stripe = require('stripe')(process.env.REACT_APP_STRIPE_TEST_SECRET)
 
 const app = express()
 
@@ -17,7 +18,9 @@ const {
     CONNECTION_STRING,
     SESSION_SECRET,
     DEV_KEY,
-    AUTH_ID
+    AUTH_ID,
+    REACT_APP_STRIPE_TEST_PUBLISHABLE,
+    REACT_APP_STRIPE_TEST_SECRET
 } = process.env
 
 app.use(session({
@@ -75,18 +78,18 @@ app.get('/api/userData', async (req, res) => {
 
 app.get('/api/getStories', async (req, res) => {
     const db = req.app.get('db')
-    let {userid} = req.session
+    let { userid } = req.session
 
     let count = await db.stories.get_stories_count(userid)
     let stories = await db.stories.get_stories(userid)
 
-    res.send({count, stories})
+    res.send({ count, stories })
 })
 
-app.delete('/api/deleteStory/:storyid', async(req, res) => {
+app.delete('/api/deleteStory/:storyid', async (req, res) => {
     const db = req.app.get('db')
-    let {userid} = req.session
-    let {storyid} = req.params
+    let { userid } = req.session
+    let { storyid } = req.params
 
     let deletedChara = await db.characters.delete_all(userid, storyid)
     //will eventually need to add a plot AND plot tree delete all
@@ -97,17 +100,57 @@ app.delete('/api/deleteStory/:storyid', async(req, res) => {
 
 app.post('/api/addStory', async (req, res) => {
     const db = req.app.get('db')
-    let {userid} = req.session
-    let {title} = req.body
+    let { userid } = req.session
+    let { title } = req.body
 
     let addedStory = db.stories.add_story(userid, title)
 
     res.sendStatus(200)
 })
 
+app.post('/save-stripe-token', async (req, res) => {
+    const db = req.app.get
+    const { token } = req.body
+    let { userid } = req.sessions
+
+    // add a column for customerid to db
+    //fix add customer feature 
+    let foundCustomer = await db.login.find_customer(userid)
+
+    if (foundCustomer) {
+
+        const charge = await stripe.charges.create({
+            amount: 100,
+            currency: 'usd',
+            customer: foundCustomer
+        })
+
+        res.sendStatus(200)
+
+    } else {
+        const customer = await stripe.customers.create({
+            source: token,
+            email: ''
+        })
+
+        // req.session.customerid = customer.id
+
+        const charge = await stripe.charges.create({
+            amount: 100,
+            currency: 'usd',
+            customer: customer.id,
+            // source: token
+        })
+
+        let createdCustomer = await db.login.add_customer_id(customer)
+
+        res.sendStatus(200)
+    }
+})
+
 app.post('/api/addChara/:storyid', async (req, res) => {
     const db = req.app.get('db')
-    let {storyid} = req.params
+    let { storyid } = req.params
     let {
         first_name,
         last_name,
@@ -118,7 +161,7 @@ app.post('/api/addChara/:storyid', async (req, res) => {
         age,
         occupation,
         dd_alignment,
-        special_abilities 
+        special_abilities
     } = req.body
 
     let newChara = await db.characters.add_chara(storyid, first_name, last_name, gender, hair_color, eye_color, hobby, age, occupation, dd_alignment, special_abilities)
@@ -126,7 +169,7 @@ app.post('/api/addChara/:storyid', async (req, res) => {
 })
 app.get('/api/getChara/:storyid', async (req, res) => {
     const db = req.app.get('db')
-    let {storyid} = req.params
+    let { storyid } = req.params
 
     let gotCharacters = await db.characters.get_characters(storyid)
     res.send(gotCharacters)
@@ -134,7 +177,7 @@ app.get('/api/getChara/:storyid', async (req, res) => {
 
 app.delete('/api/deleteChara/:storyid/:characterid', async (req, res) => {
     const db = req.app.get('db')
-    let {storyid, characterid} = req.params
+    let { storyid, characterid } = req.params
 
     let deletedChara = await db.characters.delete_chara(storyid, characterid)
 
@@ -143,7 +186,7 @@ app.delete('/api/deleteChara/:storyid/:characterid', async (req, res) => {
 
 app.get('/api/getCharaByid/:storyid/:characterid', async (req, res) => {
     const db = req.app.get('db')
-    let {storyid, characterid} = req.params
+    let { storyid, characterid } = req.params
 
     let gotCharacter = await db.characters.get_chara_by_id(storyid, characterid)
     // console.log(gotCharacter)
@@ -152,7 +195,7 @@ app.get('/api/getCharaByid/:storyid/:characterid', async (req, res) => {
 
 app.post('/api/updateChara/:storyid/:characterid', async (req, res) => {
     const db = req.app.get('db')
-    let {storyid, characterid} = req.params
+    let { storyid, characterid } = req.params
     let {
         first_name,
         last_name,
@@ -163,7 +206,7 @@ app.post('/api/updateChara/:storyid/:characterid', async (req, res) => {
         age,
         occupation,
         dd_alignment,
-        special_abilities 
+        special_abilities
     } = req.body
 
     let updatedChara = await db.characters.update_chara(storyid, characterid, first_name, last_name, gender, hair_color, eye_color, hobby, age, occupation, dd_alignment, special_abilities)

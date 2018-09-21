@@ -1,15 +1,15 @@
 //for add story always render a menu button with a plus sign, when the plus sign is clicked a modal pops up with a title input and an add/purchase story button
 //add/purchase story renders condtionally based on whether story count is <= 2 after purchasing with strip the story button will appear and site will run as usual
 
-//write purchase button with stripe
+//button with stripe fix add customer
 // login api
-//edit chara
 //chara popup
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { updateUserid } from '../ducks/reducer'
+import StripeCheckout from 'react-stripe-checkout'
 
 class Home extends Component {
     constructor(props) {
@@ -35,6 +35,7 @@ class Home extends Component {
         this.menuClick = this.menuClick.bind(this)
         this.addStory = this.addStory.bind(this)
         this.addClick = this.addClick.bind(this)
+        this.buyStory = this.buyStory.bind(this)
     }
     componentDidMount() {
         if (!this.props.userid) {
@@ -84,7 +85,12 @@ class Home extends Component {
             .then(() => this.getStories())
     }
     //add in stripe functionality and then run the axios call and rerender stories
-    buyStory() { }
+    buyStory = (token) => {
+        fetch('/save-stripe-token', {
+            method: 'POST',
+            body: JSON.stringify(token),
+        }).then(() => {this.addStory()})
+     }
 
     deleteStory(storyid) {
         axios.delete(`/api/deleteStory/${storyid}`)
@@ -115,7 +121,7 @@ class Home extends Component {
 
 
     render() {
-        console.log(this.state)
+        console.log(process.env.REACT_APP_STRIPE_TEST_PUBLISHABLE )
         let mappedMenu = this.state.stories.map((e, i) => {
             let l = this.state.stories.length
             let top = (50 + 35 * Math.sin(-0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%";
@@ -155,8 +161,17 @@ class Home extends Component {
                                 <p>What would you like to call your story?</p>
                                 <input className='modelInput' onChange={(e) => { this.setState({ modalInput: e.target.value }) }}></input>
                                 {/* button that conditionally renders based on number of stories */}
-                                {Number(this.state.storyNum[0]) >= 2 ? <button onClick={this.addClick}>Add story</button> : <button>Buy Story ($1.00)</button>}
+                                {Number(this.state.storyNum[0]) <= 2 ? <button onClick={this.addClick}>Add story</button> : <StripeCheckout
+                                name='WritersCorner'
+                                //add image
+                                token={this.buyStory}
+                                stripeKey={process.env.REACT_APP_STRIPE_TEST_PUBLISHABLE}
+                                amount='100'
+                                closed={this.toggleModal}
+                                /> }
+                                {/* // <button>Buy Story ($1.00)</button>} */}
                                 <button onClick={this.toggleModal}>Cancel</button>
+                                <sub>*The first two stories boards are free, if you find Writers Corner helpful you can purchase additional stories for just $1.00.</sub>
                             </div>
                         </ div>
                     </div>
