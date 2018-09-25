@@ -20,7 +20,7 @@ class Home extends Component {
             stories: [{ title: '+' }],
             modalInput: '',
             modalToggle: false,
-            storyNum: 0,
+            storyNum: 1,
             menuToggle: false,
             titles: [0, 0],
             subToggle: false,
@@ -100,18 +100,21 @@ class Home extends Component {
 
     // renameStory(storyid){}
 
-    subMenuVals(title, left, top, storyid) {
+    subMenuVals(storyid) {
         // let newTitle = this.state.titles
         // newTitle[title] = [left, top]
-        this.setState({ titles: [left, top], storyid: storyid })
+        this.setState({storyid: storyid })
     }
-    subMenuDisplay(title) {
-        let left = this.state.titles[0]
-        let top = this.state.titles[1]
+    subMenuDisplay(title, origin) {
+        console.log('submenu display method firing')
+        // let left = this.state.titles[0]
+        // let top = this.state.titles[1]
 
         if (this.state.subToggle) {
             return (
-                <div className={this.state.subToggle ? 'open sub' : 'sub'} style={this.state.subToggle ? { left, top } : { left: 0, top: 0 }}>
+                <div className={this.state.subToggle ? 'open sub' : 'sub'} 
+                style={{height: '200px', position: 'absolute', transform: `rotate(${origin}deg)`, transformOrigin: '0 100%'}}>
+                {/* // <div> */}
                     <button className='subBtn' onClick={() => this.props.history.push(`/characters/${this.state.storyid}/${title}`)}>Character</button>
                     <button className='subBtn' onClick={() => this.deleteStory(this.state.storyid)}>Delete</button>
                     {/* <button onClick={() => this.renameStory(this.state.storyid)}>Rename</button> */}
@@ -122,34 +125,79 @@ class Home extends Component {
 
 
     render() {
-        console.log(process.env.REACT_APP_STRIPE_TEST_PUBLISHABLE )
-        let mappedMenu = this.state.stories.map((e, i) => {
-            let l = this.state.stories.length
-            let top = (50 + 35 * Math.sin(-0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%";
-            let left = (50 - 35 * Math.cos(-0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%";
-            return (
-                // classname = on click for circle and open
-                <div key={i} className={this.state.menuToggle ? 'open circle' : 'circle'} style={this.state.menuToggle ? { left, top } : {}}>
-                    {e.title != '+' ?
-                        //onClick for sub menues                        
+        // console.log(process.env.REACT_APP_STRIPE_TEST_PUBLISHABLE )
+        // let menu = this.state.stories.map((e, i) => {
+        //     let l = this.state.stories.length
+        //     let top = (50 + 35 * Math.sin(-0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%";
+        //     let left = (50 - 35 * Math.cos(-0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%";
+        //     return (
+        //         // classname = on click for circle and open
+        //         <div key={i} className={this.state.menuToggle ? 'open circle' : 'circle'} style={this.state.menuToggle ? { left, top } : {}}>
+        //             {e.title != '+' ?
+        //                 //onClick for sub menues                        
+        //                 <button className='radMenuBtn' onClick={() => {
+        //                     this.toggleSub()
+        //                     this.subMenuVals(e.storyid)
+        //                 }}>{e.title}</button>
+        //                 //on click for add story model
+        //                 : <button id="radMenuBtn" onClick={this.toggleModal}>{e.title}</button>
+        //             }
+        //             {this.state.storyid === e.storyid ? this.subMenuDisplay(e.title) : null}
+        //         </div>
+        //     )
+        // })
+
+        let deg = 360/(1 + Number(this.state.storyNum))
+        let origin = 0-deg
+        console.log(this.state.stories)
+        // console.log(this.state.storyNum)
+        // console.log({deg, origin})
+        let menu = this.state.stories.map(ea => {
+        //     console.log({ea})
+            if(this.state.menuToggle){
+                origin += deg 
+
+                return( 
+                    <div>                    
+                    {ea.title != '+' ?
+                        //onClick for sub menues 
                         <button className='radMenuBtn' onClick={() => {
                             this.toggleSub()
-                            this.subMenuVals(e.title, left, top, e.storyid)
-                        }}>{e.title}</button>
+                            this.subMenuVals(ea.storyid)
+                        }}  style={{height: '200px', position: 'absolute', transform: `rotate(${origin}deg)`, transformOrigin: '0 100%'}}>{ea.title}</button>
                         //on click for add story model
-                        : <button id="radMenuBtn" onClick={this.toggleModal}>{e.title}</button>
-                    }
-                    {this.state.storyid === e.storyid ? this.subMenuDisplay(e.title) : null}
-                </div>
-            )
-        })
+                        : <button className="radMenuBtn" onClick={this.toggleModal} style={{height: '200px', position: 'absolute', transform: `rotate(${origin}deg)`, transformOrigin: '0 100%'}}>{ea.title}</button>}
+                    
+                
+                    {this.state.storyid === ea.storyid ? this.subMenuDisplay(ea.title, origin) : null}
+                    </div>
+                )
+                }else{
+                    return null
+                }
+            })
+        
+        //         console.log('menu toggle', this.state.menuToggle)
+        //         console.log('submenu toggle', this.state.subToggle);
+        //         origin += deg
+        //         return(
+        //             <div>
+        //                 {/* ea.title != '+' ? */}
+        //             <button className='radMenuBtn' onClick={this.toggleSub} style={{height: '200px', position: 'absolute', transform: `rotate(${origin}deg)`, transformOrigin: '0 100%'}}>{ea.title}</button>
+        //             {this.state.subToggle ? this.subMenuDisplay() : null}
+        //             </div>
+        //         )
+        //     }else{
+        //         return null
+        //     }
+        // })
         return (
             <div>
 
                 <div className='circular-menu'>
                     <button className='radialMenu' onClick={this.menuClick}>My Stories</button>
-                    {/* <RadialTest/> */}
-                    {mappedMenu}
+                    {/* <RadialTest stories={this.state.stories} storyNum={this.state.storyNum}/> */}
+                    {menu}
                 </div>
 
                 {this.state.modalToggle ?

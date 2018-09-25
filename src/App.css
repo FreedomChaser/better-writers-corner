@@ -143,7 +143,7 @@ body{
   color: white;
   /* display:  */
 }
-.div.circTxt{
+.circTxt{
   display: flex;
   justify-content: center;
   /* height should be double jsx radius */
@@ -214,19 +214,68 @@ a{
 .charaH1{
   color: white;
   font-size: 2.5vw;
+  margin: 10px
 }
 .charaBod{
   display: flex;
   flex-wrap: wrap;
-  justify-content: center
+  flex-direction: column;
+  align-items: center;
+  /* justify-content: center */
 }
-.charaTitle{}
+.charaDiv{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 10px;
+  /* justify-content:  */
+}
+.charaTitle{
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0 10px 0;
+}
+.charaAddBtn{
+  margin-top: 5px;
+  background-color: 	#3ebfbb;
+  /* #9dd5d4; */
+  border-radius: 3px;
+  border-style: none;
+  height: 30px;
+  font-size: 1.5vw;
+}
 
-.charaNone{}
+.charaH2{
+  font-size: 2vw;
+  color: black;
+}
+
+.chara{
+  margin: 5px;
+  color: black;
+}
+
+.charaDelBtn{
+  border-radius: 3px;
+  border-style: none;
+  background-color: #9dd5d4;
+  height: 25px;
+  margin-top: 5px
+}
+
+.charaNone{
+  color: white;
+  font-size: 1.5vw
+}
 
 .charaCard{
   background-color: #dcdcdc;
   border-radius: 4px;
   width: 200px;
-  margin: 20px
+  margin: 20px;
+  padding: 10px
+}
+.delCharaDiv{
+  display: flex;
+  /* align-items: flex-end */
 }

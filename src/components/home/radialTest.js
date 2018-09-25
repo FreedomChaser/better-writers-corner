@@ -13,6 +13,8 @@ export default class Radial extends Component{
         this.getStories = this.getStories.bind(this)
         this.toggleMenu = this.toggleMenu.bind(this)
         this.toggleSub = this.toggleSub.bind(this)
+        this.subMenuDisplay = this.subMenuDisplay.bind(this)
+        this.deleteStory = this.deleteStory.bind(this)
     }
 
     getStories() {
@@ -25,18 +27,37 @@ export default class Radial extends Component{
     toggleSub() {
         this.setState({ subToggle: !this.state.subToggle })
     }
+    subMenuDisplay(title) {
+        // let left = this.state.titles[0]
+        // let top = this.state.titles[1]
+
+        if (this.state.subToggle) {
+            return (
+                <div className={this.state.subToggle ? 'open sub' : 'sub'}>
+                    <button className='subBtn' onClick={() => this.props.history.push(`/characters/${this.state.storyid}/${title}`)}>Character</button>
+                    <button className='subBtn' onClick={() => this.deleteStory(this.state.storyid)}>Delete</button>
+                    {/* <button onClick={() => this.renameStory(this.state.storyid)}>Rename</button> */}
+                </div>
+            )
+        } else { return null }
+    }
+    deleteStory(storyid) {
+        axios.delete(`/api/deleteStory/${storyid}`)
+            .then(() => this.getStories())
+    }
+
 
     render(){
-        let deg = 360/this.state.storyNum
+        let deg = 360/this.props.storyNum
         let origin = 0
 
-        let menu = this.state.stories.map(ea => {
+        let menu = this.props.stories.map(ea => {
             if(this.state.menuToggle){
                 origin += deg
                 return(
                     <div>
-                    <button onClick={this.toggleSub} style={{height: '200px', position: 'absolute', transform: `rotate(${origin}deg)`, transformOrigin: '0 100%'}}>{ea.title}</button>
-                    {this.state.subToggle ? <button>Characters</button> : null}
+                    <button className='radMenuBtn' onClick={this.toggleSub} style={{height: '200px', position: 'absolute', transform: `rotate(${origin}deg)`, transformOrigin: '0 100%'}}>{ea.title}</button>
+                    {this.state.subToggle ? this.subMenuDisplay() : null}
                     </div>
                 )
             }else{
@@ -44,7 +65,7 @@ export default class Radial extends Component{
             }
         })
         return(
-            <div>
+            <div className='circular-menu'>
                 <button onClick={this.toggleMenu} style={{top: '50%', left: '50%'}}>My Stories</button>
                 {menu}
             </div>

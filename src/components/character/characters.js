@@ -54,14 +54,16 @@ class Characters extends React.Component {
                     <div className='charaCard'>
                         <Link to={`/characters/${ele.storyid}/${this.props.match.params.title}/characterEditForm/${ele.characterid}`}>
                             <div>
-                                <h2>{ele.first_name} {ele.last_name}</h2>
-                                <p>Gender: {ele.gender}</p>
-                                <p>Hair Color: {ele.hair_color}</p>
-                                <p>Eye Color: {ele.eye_color}</p>
-                                <p>Hobby: {ele.hobby}</p>
+                                <h2 className='charaH2'>{ele.first_name} {ele.last_name}</h2>
+                                <p className='chara'>Gender: {ele.gender}</p>
+                                <p className='chara'>Hair Color: {ele.hair_color}</p>
+                                <p className='chara'>Eye Color: {ele.eye_color}</p>
+                                <p className='chara'>Hobby: {ele.hobby}</p>
                             </div>
                         </Link>
-                        <button onClick={() => this.deleteChara(ele.storyid, ele.characterid)}>Delete Character</button>
+                        <div className='delCharaDiv'>
+                        <button className='charaDelBtn' onClick={() => this.deleteChara(ele.storyid, ele.characterid)}>Delete Character</button>
+                        </div>
                     </div>
                 )
             })
@@ -81,12 +83,14 @@ class Characters extends React.Component {
             <div className='charaBod'>
                 <div className='charaTitle'>
                 <h1 className='charaH1'>{title}</h1>
-                <p>Characters</p>
+                {/* <p>Characters</p> */}
                 {/* <Link to={`/characters/${storyid}/characterForm`}> */}
-                <button onClick={() => this.props.history.push(`/characters/${storyid}/${title}/characterAddForm`)}>Add Character</button>
+                <button className='charaAddBtn' onClick={() => this.props.history.push(`/characters/${storyid}/${title}/characterAddForm`)}>Add Character</button>
                 </div>
                 {/* </Link> */}
+                <div className='charaDiv'>
                 {this.mapChara()}
+                </div>
             </div>
         )
     }
