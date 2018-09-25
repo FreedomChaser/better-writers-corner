@@ -74,6 +74,10 @@ class Home extends Component {
             this.toggleMenu()
         }
     }
+    // subClick(){
+    //     this.toggleSub()
+    //     this.subMenuVals()
+    // }
 
     addClick() {
         this.addStory()
