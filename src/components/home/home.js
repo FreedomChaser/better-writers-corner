@@ -10,6 +10,7 @@ import axios from 'axios'
 import { connect } from 'react-redux'
 import { updateUserid } from '../ducks/reducer'
 import StripeCheckout from 'react-stripe-checkout'
+import RadialTest from './radialTest'
 
 class Home extends Component {
     constructor(props) {
@@ -111,8 +112,8 @@ class Home extends Component {
         if (this.state.subToggle) {
             return (
                 <div className={this.state.subToggle ? 'open sub' : 'sub'} style={this.state.subToggle ? { left, top } : { left: 0, top: 0 }}>
-                    <button onClick={() => this.props.history.push(`/characters/${this.state.storyid}/${title}`)}>Character</button>
-                    <button onClick={() => this.deleteStory(this.state.storyid)}>Delete</button>
+                    <button className='subBtn' onClick={() => this.props.history.push(`/characters/${this.state.storyid}/${title}`)}>Character</button>
+                    <button className='subBtn' onClick={() => this.deleteStory(this.state.storyid)}>Delete</button>
                     {/* <button onClick={() => this.renameStory(this.state.storyid)}>Rename</button> */}
                 </div>
             )
@@ -136,7 +137,7 @@ class Home extends Component {
                             this.subMenuVals(e.title, left, top, e.storyid)
                         }}>{e.title}</button>
                         //on click for add story model
-                        : <button id="addStoryBtn" onClick={this.toggleModal}>{e.title}</button>
+                        : <button id="radMenuBtn" onClick={this.toggleModal}>{e.title}</button>
                     }
                     {this.state.storyid === e.storyid ? this.subMenuDisplay(e.title) : null}
                 </div>
@@ -147,6 +148,7 @@ class Home extends Component {
 
                 <div className='circular-menu'>
                     <button className='radialMenu' onClick={this.menuClick}>My Stories</button>
+                    {/* <RadialTest/> */}
                     {mappedMenu}
                 </div>
 
@@ -157,11 +159,14 @@ class Home extends Component {
 
                             {/* <!-- Modal content --> */}
                             <div className="modal-content">
+                            <div>
                                 <span className="close" onClick={this.toggleModal}>&times;</span>
                                 <p>What would you like to call your story?</p>
+                                </div>
                                 <input className='modelInput' onChange={(e) => { this.setState({ modalInput: e.target.value }) }}></input>
                                 {/* button that conditionally renders based on number of stories */}
-                                {Number(this.state.storyNum[0]) <= 2 ? <button onClick={this.addClick}>Add story</button> : <StripeCheckout
+                                <div className='modelBtns'>
+                                {Number(this.state.storyNum[0]) <= 2 ? <button className='addStoryBtn' onClick={this.addClick}>Add story</button> : <StripeCheckout
                                 name='WritersCorner'
                                 //add image
                                 token={this.buyStory}
@@ -170,7 +175,8 @@ class Home extends Component {
                                 closed={this.toggleModal}
                                 /> }
                                 {/* // <button>Buy Story ($1.00)</button>} */}
-                                <button onClick={this.toggleModal}>Cancel</button>
+                                <button className='addStoryBtn' onClick={this.toggleModal}>Cancel</button>
+                                </div>
                                 <sub>*The first two story boards are free, if you find Writers Corner helpful you can purchase additional story boards for just $1.00.</sub>
                             </div>
                         </ div>

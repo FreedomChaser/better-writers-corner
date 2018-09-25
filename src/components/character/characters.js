@@ -51,7 +51,7 @@ class Characters extends React.Component {
             return this.state.characters.map((ele, i) => {
                 return (
                     // route must contain storyid and characterid
-                    <div className='chareCard'>
+                    <div className='charaCard'>
                         <Link to={`/characters/${ele.storyid}/${this.props.match.params.title}/characterEditForm/${ele.characterid}`}>
                             <div>
                                 <h2>{ele.first_name} {ele.last_name}</h2>
@@ -67,7 +67,7 @@ class Characters extends React.Component {
             })
         } else {
             return (
-                <p>No characters yet</p>
+                <p className='charaNone'>No characters yet</p>
             )
         }
     }
@@ -78,11 +78,13 @@ class Characters extends React.Component {
         let storyid = this.props.match.params.storyid
         let title = this.props.match.params.title
         return (
-            <div>
-                <h1>{title}</h1>
+            <div className='charaBod'>
+                <div className='charaTitle'>
+                <h1 className='charaH1'>{title}</h1>
                 <p>Characters</p>
                 {/* <Link to={`/characters/${storyid}/characterForm`}> */}
                 <button onClick={() => this.props.history.push(`/characters/${storyid}/${title}/characterAddForm`)}>Add Character</button>
+                </div>
                 {/* </Link> */}
                 {this.mapChara()}
             </div>
