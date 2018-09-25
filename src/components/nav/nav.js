@@ -11,11 +11,11 @@ class Nav extends Component {
     render() {
         if (this.props.location.pathname !== '/') {
             return (
-                <div>
+                <div className='navMain'>
                     <Link to='/home'>
-                        <h1>Writers Corner</h1>
+                        <h1 className='navH1'>Writers Corner</h1>
                     </Link>
-                    <button onClick={() => this.logout()}>Logout</button>
+                    <button className='navBtn' onClick={() => this.logout()}>Logout</button>
                 </div>
             )
             // if(this.props.location.pathname === '/home'){

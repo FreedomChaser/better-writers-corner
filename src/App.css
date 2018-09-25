@@ -1,3 +1,26 @@
+@import url('https://fonts.googleapis.com/css?family=Abel|Great+Vibes');
+
+body{
+  background-image: url('background.jpg');
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  font-family: 'Abel', sans-serif;
+  background-repeat: none;
+
+  /* background-size: cover;
+  height: 100%;
+  overflow: hidden;
+  
+  /* position: fixed; */
+  /* top: 0;
+  left: 0;
+
+  min-width: 100%;
+  min-height: 100% */ 
+}
+
 /* The Modal (background) */
 .modal {
   position: fixed; /* Stay in place */
@@ -36,9 +59,7 @@
 }
 
 /* radial menu */
-body {
-  background: #39D;
-}
+
 
 .circular-menu {
   width: 250px;
@@ -136,12 +157,66 @@ body {
   z-index: 5
 }
 
-.radMenuBtn{
+/* .radMenuBtn{
 
-}
+} */
 
 /* .menu-button:hover {
   background-color: #eef;
 } */
 
+/* circle quote */
+.loginContainer{
+  text-align: center;
+  color: white;
+  /* display:  */
+}
+.div.circTxt{
+  display: flex;
+  justify-content: center;
+  /* height should be double jsx radius */
+  height: 400px;
+  position: relative;
+}
+.loginBtn{
+  position: absolute;
+  top: 50%;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  /* border-style: solid 1px	#49796b; */
+  border-style: none;
+  box-shadow: 1px 2px #49796b;
+  background-color: 	#a3c1ad;
+}
+/* nav */
+.navMain{
+  background-color: #49796b;
+  /* box-shadow: 1px 1px 		#a3c1ad; */
+  height: 10vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px
+}
+.navH1{
+  text-decoration: none;
+  font-family: 'Great Vibes', cursive;
+  font-size: 3vw;
+  color: white
+}
+.navBtn{
+  box-shadow: 1px 2px #49796b;
+  background-color: 	#a3c1ad;
+  border-radius: 3px;
+  border-style: none;
+  color: white;
+  width: 80px;
+  height: 40px;
+  font-size: 1em
+}
+a{
+  text-decoration: none
+}
 

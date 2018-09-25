@@ -171,7 +171,7 @@ class Home extends Component {
                                 /> }
                                 {/* // <button>Buy Story ($1.00)</button>} */}
                                 <button onClick={this.toggleModal}>Cancel</button>
-                                <sub>*The first two stories boards are free, if you find Writers Corner helpful you can purchase additional stories for just $1.00.</sub>
+                                <sub>*The first two story boards are free, if you find Writers Corner helpful you can purchase additional story boards for just $1.00.</sub>
                             </div>
                         </ div>
                     </div>

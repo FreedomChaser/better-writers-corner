@@ -1,11 +1,15 @@
-import React, {Component} from 'react'
-import {withRouter} from 'react-router-dom'
+import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 
-class Footer extends Component{
-    render(){
-        return(
-            <p>This site was built using:</p>
-        )
+class Footer extends Component {
+    render() {
+        if (this.props.location.pathname !== '/') {
+            return (
+                <p>This site was built using:</p>
+            )
+        }else{
+            return null
+        }
     }
 }
 
