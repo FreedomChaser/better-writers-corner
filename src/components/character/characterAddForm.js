@@ -56,53 +56,55 @@ class CharacterForm extends Component {
         let storyid = this.props.match.params.storyid
         let title = this.props.match.params.title
         return (
-            <div>
-                <h1>{title}</h1>
+            <div className='addFullBody'>
+            <div className='addBody'>
+                <h1 className='newCharaH1'>{title}</h1>
                 <h2>New Character</h2>
-                <button onClick={() => this.props.history.push(`/characters/${storyid}/${title}`)}>Cancel</button>
+                <button className='newCharaCancel' onClick={() => this.props.history.push(`/characters/${storyid}/${title}`)}>Cancel</button>
 
                 <div>
-                    <p>First Name</p>
-                    <input onChange={(e) => this.setState({ first_name: e.target.value })}></input>
+                    <p className='newCharaText'>First Name</p>
+                    <input className='newCharaInput' onChange={(e) => this.setState({ first_name: e.target.value })}></input>
                 </div>
                 <div>
-                    <p>Last Name</p>
-                    <input onChange={(e) => this.setState({ last_name: e.target.value })}></input>
+                    <p className='newCharaText'>Last Name</p>
+                    <input className='newCharaInput' onChange={(e) => this.setState({ last_name: e.target.value })}></input>
                 </div>
                 <div>
-                    <p>Gender</p>
-                    <input onChange={(e) => this.setState({ gender: e.target.value })}></input>
+                    <p className='newCharaText'>Gender</p>
+                    <input className='newCharaInput' onChange={(e) => this.setState({ gender: e.target.value })}></input>
                 </div>
                 <div>
-                    <p>Hair Color</p>
-                    <input onChange={(e) => this.setState({ hair_color: e.target.value })}></input>
+                    <p className='newCharaText'>Hair Color</p>
+                    <input className='newCharaInput' onChange={(e) => this.setState({ hair_color: e.target.value })}></input>
                 </div>
                 <div>
-                    <p>Eye Color</p>
-                    <input onChange={(e) => this.setState({ eye_color: e.target.value })}></input>
+                    <p className='newCharaText'>Eye Color</p>
+                    <input className='newCharaInput' onChange={(e) => this.setState({ eye_color: e.target.value })}></input>
                 </div>
                 <div>
-                    <p>Age</p>
-                    <input onChange={(e) => this.setState({ age: e.target.value })}></input>
+                    <p className='newCharaText'>Age</p>
+                    <input className='newCharaInput' onChange={(e) => this.setState({ age: e.target.value })}></input>
                 </div>
                 <div>
-                    <p>Occupation</p>
-                    <input onChange={(e) => this.setState({ Occupation: e.target.value })}></input>
+                    <p className='newCharaText'>Occupation</p>
+                    <input className='newCharaInput' onChange={(e) => this.setState({ Occupation: e.target.value })}></input>
                 </div>
                 <div>
-                    <p>dd_alignment</p>
-                    <input onChange={(e) => this.setState({ dd_alignment: e.target.value })}></input>
+                    <p className='newCharaText'>D&D Alignment</p>
+                    <input className='newCharaInput' onChange={(e) => this.setState({ dd_alignment: e.target.value })}></input>
                 </div>
                 <div>
-                    <p>special_abilities</p>
-                    <input onChange={(e) => this.setState({ special_abilities: e.target.value })}></input>
+                    <p className='newCharaText'>Special Abilities</p>
+                    <input className='newCharaInput' onChange={(e) => this.setState({ special_abilities: e.target.value })}></input>
                 </div>
                 <div>
-                    <p>Hobby</p>
-                    <input onChange={(e) => this.setState({ hobby: e.target.value })}></input>
+                    <p className='newCharaText'>Hobby</p>
+                    <input className='newCharaInput' onChange={(e) => this.setState({ hobby: e.target.value })}></input>
                 </div>
                 
-                <button onClick={() => this.addChara(storyid)}>Save Character</button>
+                <button className='newCharaAdd' onClick={() => this.addChara(storyid)}>Save Character</button>
+            </div>
             </div>
         )
     }

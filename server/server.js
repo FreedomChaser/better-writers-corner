@@ -91,7 +91,7 @@ app.delete('/api/deleteStory/:storyid', async (req, res) => {
     let { userid } = req.session
     let { storyid } = req.params
 
-    let deletedChara = await db.characters.delete_all(userid, storyid)
+    let deletedChara = await db.characters.delete_all(storyid)
     //will eventually need to add a plot AND plot tree delete all
     let deletedStory = await db.stories.delete_story(userid, storyid)
 

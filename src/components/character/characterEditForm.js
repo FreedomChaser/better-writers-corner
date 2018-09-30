@@ -173,7 +173,7 @@ class CharacterForm extends Component {
             })
     }
 
-    resetSave(){
+    resetSave() {
         this.setState({
             first_name: this.props.first_name,
             last_name: this.props.last_name,
@@ -203,35 +203,60 @@ class CharacterForm extends Component {
         let characterid = this.props.match.params.characterid
         let title = this.props.match.params.title
         return (
-            <div>
-                <h1>{title}</h1>
-                <h2>{this.state.first_name} {this.state.last_name}</h2>
-                <button onClick={this.cancelBtn}>Go to main {title} page</button>
-                <button onClick={this.resetState}>Reset</button>
-                <p>First Name:</p>
-                <input className='editChara' value={this.state.first_name} onClick={() => this.clearState('first_name')} onChange={(e) => this.setState({ first_name: e.target.value })}></input>
-                <p>Last Name:</p>
-                <input className='editChara' value={this.state.last_name} onClick={() => this.clearState('last_name')} onChange={(e) => this.setState({ last_name: e.target.value })}></input>
-                <p>Gender:</p>
-                <input className='editChara' value={this.state.gender} onClick={() => this.clearState('gender')} onChange={(e) => this.setState({ gender: e.target.value })}></input>
-                <p>Hair Color:</p>
-                <input className='editChara' value={this.state.hair_color} onClick={() => this.clearState('hair_color')} onChange={(e) => this.setState({ hair_color: e.target.value })}></input>
-                <p>Eye Color:</p>
-                <input className='editChara' value={this.state.eye_color} onClick={() => this.clearState('eye_color')} onChange={(e) => this.setState({ eye_color: e.target.value })}></input>
-                <p>Age:</p>
-                <input className='editChara' value={this.state.age} onClick={() => this.clearState('age')} onChange={(e) => this.setState({ age: e.target.value })}></input>
-                <p>Occupation:</p>
-                <input className='editChara' value={this.state.occupation} onClick={() => this.clearState('occupation')} onChange={(e) => this.setState({ occupation: e.target.value })}></input>
-                <p>D&D Alignment:</p>
-                <input className='editChara' value={this.state.dd_alignment} onClick={() => this.clearState('dd_alignment')} onChange={(e) => this.setState({ dd_alignment: e.target.value })}></input>
-                <p>Special Abilities:</p>
-                <input className='editChara' value={this.state.special_abilities} onClick={() => this.clearState('special_abilities')} onChange={(e) => this.setState({ special_abilities: e.target.value })}></input>
-                <p>Hobby:</p>
-                <input className='editChara' value={this.state.hobby} onClick={() => this.clearState('hobby')} onChange={(e) => this.setState({ hobby: e.target.value })}></input>
-                <button onClick={this.updateChara}>Update</button>
-                {this.state.undoToggle ? <button onClick={this.resetSave}>Undo Update</button> : null}
-                <button onClick={() => this.deleteChara(storyid, characterid)}>Delete Character</button>
-
+            <div className='charaEditBod'>
+                <div className='editCharaDiv'>
+                    <h1 className='editCharaH1'>{title}</h1>
+                    <h2 className='editCharaH2'>{this.state.first_name} {this.state.last_name}</h2>
+                    <div>
+                    <button className='editCharaResUp' onClick={this.cancelBtn}>Go to main <b>{title}</b> page</button>
+                    <button className='editCharaResUp' onClick={this.resetState}>Reset</button>
+                    </div>
+                    <div>
+                    <p className='editCharaText'>First Name:</p>
+                    <input className='editCharaInput' value={this.state.first_name} onClick={() => this.clearState('first_name')} onChange={(e) => this.setState({ first_name: e.target.value })}></input>
+                    </div>
+                    <div>
+                    <p className='editCharaText'>Last Name:</p>
+                    <input className='editCharaInput' value={this.state.last_name} onClick={() => this.clearState('last_name')} onChange={(e) => this.setState({ last_name: e.target.value })}></input>
+                    </div>
+                    <div>
+                    <p className='editCharaText'>Gender:</p>
+                    <input className='editCharaInput' value={this.state.gender} onClick={() => this.clearState('gender')} onChange={(e) => this.setState({ gender: e.target.value })}></input>
+                    </div>
+                    <div>
+                    <p className='editCharaText'>Hair Color:</p>
+                    <input className='editCharaInput' value={this.state.hair_color} onClick={() => this.clearState('hair_color')} onChange={(e) => this.setState({ hair_color: e.target.value })}></input>
+                    </div>
+                    <div>
+                    <p className='editCharaText'>Eye Color:</p>
+                    <input className='editCharaInput' value={this.state.eye_color} onClick={() => this.clearState('eye_color')} onChange={(e) => this.setState({ eye_color: e.target.value })}></input>
+                    </div>
+                    <div>
+                    <p className='editCharaText'>Age:</p>
+                    <input className='editCharaInput' value={this.state.age} onClick={() => this.clearState('age')} onChange={(e) => this.setState({ age: e.target.value })}></input>
+                    </div>
+                    <div>
+                    <p className='editCharaText'>Occupation:</p>
+                    <input className='editCharaInput' value={this.state.occupation} onClick={() => this.clearState('occupation')} onChange={(e) => this.setState({ occupation: e.target.value })}></input>
+                    </div>
+                    <div>
+                    <p className='editCharaText'>D&D Alignment:</p>
+                    <input className='editCharaInput' value={this.state.dd_alignment} onClick={() => this.clearState('dd_alignment')} onChange={(e) => this.setState({ dd_alignment: e.target.value })}></input>
+                    </div>
+                    <div>
+                    <p className='editCharaText'>Special Abilities:</p>
+                    <input className='editCharaInput' value={this.state.special_abilities} onClick={() => this.clearState('special_abilities')} onChange={(e) => this.setState({ special_abilities: e.target.value })}></input>
+                    </div>
+                    <div>
+                    <p className='editCharaText'>Hobby:</p>
+                    <input className='editCharaInput' value={this.state.hobby} onClick={() => this.clearState('hobby')} onChange={(e) => this.setState({ hobby: e.target.value })}></input>
+                    </div>
+                    <div>
+                    <button className='editCharaResUp' onClick={this.updateChara}>Update</button>
+                    {this.state.undoToggle ? <button className='editCharaResUp' onClick={this.resetSave}>Undo Update</button> : null}
+                    <button className='editCharaResUp' onClick={() => this.deleteChara(storyid, characterid)}>Delete Character</button>
+                </div>
+                </div>
             </div >
         )
     }

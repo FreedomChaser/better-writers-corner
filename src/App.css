@@ -125,34 +125,25 @@ body{
   
 }
 
-.radialMenu{
-  position: absolute;
-  top: calc(50%);
-  left: calc(50%);
-  z-index: 5;
-  width: 9vw;
-  height: 9vw;
-  border-radius: 50%;
-  background-color: #a3c1ad;
-  border-style: none
-}
-
 /* circle quote */
 .loginContainer{
   text-align: center;
   color: white;
-  /* display:  */
+  /* display: flex;
+  justify-content: center;
+  align-items: center */
 }
 .circTxt{
   display: flex;
   justify-content: center;
+  align-items: center;
   /* height should be double jsx radius */
   height: 400px;
   position: relative;
 }
 .loginBtn{
   position: absolute;
-  top: 50%;
+  top: 65%;
   width: 10vw;
   height: 10vw;
   border-radius: 50%;
@@ -209,6 +200,33 @@ a{
   border-style: none;
   color: white
 }
+.homeMenu{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20vh;
+  /* height: 500px */
+}
+.homeSubBtns{}
+
+.radialMenu{
+  position: absolute;
+  top: calc(45%);
+  left: calc(47%);
+  z-index: 5;
+  width: 7vw;
+  height: 7vw;
+  border-radius: 50%;
+  background-color: #a3c1ad;
+  border-style: none
+}
+
+.radBtns{
+  display: flex;
+  align-items: center
+}
+
+
 
 /* chara */
 .charaH1{
@@ -241,8 +259,9 @@ a{
   /* #9dd5d4; */
   border-radius: 3px;
   border-style: none;
-  height: 30px;
+  height: 40px;
   font-size: 1.5vw;
+  /* padding: 5px */
 }
 
 .charaH2{
@@ -278,4 +297,94 @@ a{
 .delCharaDiv{
   display: flex;
   /* align-items: flex-end */
+}
+.addFullBody{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center
+}
+.addBody{
+  background-color: #dcdcdc;
+  width: 20vw;
+  margin-top: 5vh;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+}
+.newCharaCancel{
+  background-color: #3ebfbb;
+  border-radius: 3px;
+  border-style: none;
+  margin: 5px;
+  height: 25px;
+  width: 75px
+}
+
+.newCharaAdd{
+  background-color: #3ebfbb;
+  border-radius: 3px;
+  border-style: none;
+  margin: 5px;
+  height: 25px;
+  width: 150px
+}
+.newCharaH1{
+  font-size: 1.75vw;
+}
+.newCharaText{
+  margin-bottom: 5px
+}
+.newCharaInput{
+  border-radius: 3px;
+  margin-bottom: 7px;
+  padding: 2px;
+  border-style: none;
+  font-family: 'Abel', sans-serif;
+  width: 200px;
+}
+.charaEditBod{
+  /* color: white; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.editCharaDiv{
+  background-color: #dcdcdc;
+  width: 320px;
+  margin-top: 40px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px
+}
+.editCharaResUp{
+  background-color: #3ebfbb;
+  border-radius: 3px;
+  border-style: none;
+  margin: 5px 2.5px 0 2.5px;
+  height: 25px
+}
+.editCharaH1{
+  font-size: 1.75vw;
+}
+.editCharaH2{
+  font-size: 1.25vw;
+  margin-bottom: 5px
+}
+.editCharaText{
+  margin: 5px 0 3px 0
+}
+.editCharaInput{
+  margin: 0 0 3px 0;
+  padding: 2px;
+  border-radius: 2px;
+  border-style: none;
+  font-family: 'Abel', sans-serif;
+  width: 175px
 }

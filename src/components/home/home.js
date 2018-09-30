@@ -4,6 +4,10 @@
 //button with stripe fix add customer
 // login api
 //chara popup
+
+//PROBLEMS
+//!!!onClick submenu stays
+//!!!change quote axios
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
@@ -116,7 +120,7 @@ class Home extends Component {
 
         if (this.state.subToggle) {
             return (
-                <div className={this.state.subToggle ? 'open sub' : 'sub'} 
+                <div className='homeSubBtns' 
                 style={{height: '200px', position: 'absolute', transform: `rotate(${origin}deg)`, transformOrigin: '0 100%'}}>
                 {/* // <div> */}
                     <button className='subBtn' onClick={() => this.props.history.push(`/characters/${this.state.storyid}/${title}`)}>Character</button>
@@ -198,10 +202,12 @@ class Home extends Component {
         return (
             <div>
 
-                <div className='circular-menu'>
+                <div className='homeMenu'>
+                <div className='radBtns'>
                     <button className='radialMenu' onClick={this.menuClick}>My Stories</button>
                     {/* <RadialTest stories={this.state.stories} storyNum={this.state.storyNum}/> */}
                     {menu}
+                    </div>
                 </div>
 
                 {this.state.modalToggle ?
