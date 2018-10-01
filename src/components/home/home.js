@@ -15,6 +15,7 @@ import { connect } from 'react-redux'
 import { updateUserid } from '../ducks/reducer'
 import StripeCheckout from 'react-stripe-checkout'
 import RadialTest from './radialTest'
+import { relative } from 'path';
 
 class Home extends Component {
     constructor(props) {
@@ -121,9 +122,11 @@ class Home extends Component {
         if (this.state.subToggle) {
             return (
                 <div className='homeSubBtns' 
-                style={{height: '200px', position: 'absolute', transform: `rotate(${origin}deg)`, transformOrigin: '0 100%'}}>
+                style={{height: '100px', position: 'absolute', transform: `rotate(${origin-90}deg)`, display: 'flex', top: `150px`, transformOrigin: '0 60%', paddingLeft: '200px', paddingTop: '45px'}}>
+                {/* // , transform: `rotate(${origin}deg)`, transformOrigin: '0 100%'}}> */}
                 {/* // <div> */}
                     <button className='subBtn' onClick={() => this.props.history.push(`/characters/${this.state.storyid}/${title}`)}>Character</button>
+                    <button className='subBtn' onClick={() => this.props.history.push(`/plots/${this.state.storyid}/${title}`)}>Plots</button>
                     <button className='subBtn' onClick={() => this.deleteStory(this.state.storyid)}>Delete</button>
                     {/* <button onClick={() => this.renameStory(this.state.storyid)}>Rename</button> */}
                 </div>
@@ -166,7 +169,7 @@ class Home extends Component {
                 origin += deg 
 
                 return( 
-                    <div>                    
+                    <div style={{position: 'relative'}}>                    
                     {ea.title != '+' ?
                         //onClick for sub menues 
                         <button className='radMenuBtn' onClick={() => {
