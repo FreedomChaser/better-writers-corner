@@ -21,9 +21,10 @@ export default class Login extends Component{
     }
     //change compnentdidmount
    async componentDidMount(){
-        let quote = await axios.get('http://api.icndb.com/jokes/random')
-        let quoteVal = quote.data.value.joke.length
-        let quoteTxt = quote.data.value.joke.split('')
+        let quoter = await axios.get('https://quotes.rest/qod')
+        console.log(quoter)
+        let quoteVal = quoter.data.contents.quotes[0].length
+        let quoteTxt = quoter.data.contents.quotes[0].quote.split('')
 
         this.setState({txt: quoteTxt, val: quoteVal})
         //set txt to state

@@ -47,7 +47,7 @@ class Home extends Component {
         if (!this.props.userid) {
             axios.get('api/userData')
                 .then((res) => {
-                    this.props.updateUserid
+                    this.props.updateUserid()
                     this.getStories()
                 })
                 .catch(err => {

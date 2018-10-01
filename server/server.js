@@ -213,6 +213,28 @@ app.post('/api/updateChara/:storyid/:characterid', async (req, res) => {
     res.sendStatus(200)
 })
 
+app.get('/api/getPlotContent/:storyid', async (req, res) => {
+    const db = req.app.get('db')
+    let {storyid} = req.params
+
+    let titles = await db.plot.get_tree_titles(storyid)
+    // console.log(titles[0].treeid)
+    let tree1 = await db.plot.get_tree(titles[0].treeid, storyid)
+    let tree2 = await db.plot.get_tree(titles[1].treeid, storyid)
+    let tree3 = await db.plot.get_tree(titles[2].treeid, storyid)
+
+    res.send({titles, tree1, tree2, tree3})
+})
+
+app.get('/api/tree/:treeid/:storyid', async (req, res) => {
+    const db = req.app.get('db')
+    let {treeid, storyid} = req.params
+
+    let tree = await db.plot.get_tree(treeid, storyid)
+
+    res.send(tree)
+})
+
 app.get('/api/logout', (req, res) => {
     req.session.destroy()
 })
