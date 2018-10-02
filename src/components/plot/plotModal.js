@@ -40,13 +40,13 @@ export default class Modal extends Component {
 
                         {/* <!-- Modal content --> */}
                         <div className="modal-content">
-                            <div>
+                            <div className='plotModal'>
                                 <span className="close" onClick={this.props.toggleModal}>&times;</span>
                                 <p>Card Title</p>
-                                <input onChange={e => {this.setState({titleInput: e.target.value})}}></input>
+                                <input className='plotInput' onChange={e => {this.setState({titleInput: e.target.value})}}></input>
                                 <p>Card Summary</p>
-                                <textarea placeholder='Max character length of 700' rows='5' onChange={e => this.checkSummary(e.target.value)}></textarea>
-                                <button onClick={this.createPlotCard}>Save Plot Card</button>
+                                <textarea className='plotText' placeholder='Max character length of 700' rows='5' onChange={e => this.checkSummary(e.target.value)}></textarea>
+                                <button className='plotBtns2' onClick={this.createPlotCard}>Save Plot Card</button>
                             </div>
                             </div>
                             </div>

@@ -8,7 +8,7 @@
 //I'll need a modal component that renders info when clicked and has edit, delete, and finished features
 
 //populate other two trees with tree 1 func
-//build crud for trees
+//build crud for trees decided against delete
 //drag and drop for trees
 
 //!!!!in delete story I need to add a call to delete plots!!!
@@ -81,7 +81,6 @@ class Plots extends Component {
         //axios call for titles and three default tree arrays
         axios.get(`/api/getPlotContent/${storyid}`)
             .then(res => {
-                console.log(res)
                 this.setState({ titles: res.data.titles, tree1: res.data.tree1, tree2: res.data.tree2, tree3: res.data.tree3, tree1id: res.data.titles[0].treeid, tree2id: res.data.titles[1].treeid, tree3id: res.data.titles[2].treeid, tree1Title: res.data.titles[0].title, tree2Title: res.data.titles[1].title, tree3Title: res.data.titles[2].title }, this.threeTreesMap)
             })
     }
@@ -106,7 +105,7 @@ class Plots extends Component {
         if (tree) {
             this.setState({ treeToggle: !this.state.treeToggle, currentTree: tree }, this.tree1Map)
         } else {
-            this.setState({ editToggleSum: !this.state.editToggleSum, currentSum: '' }, this.tree1Map)
+            this.setState({ treeToggle: !this.state.treeToggle, currentTree: '' }, this.tree1Map)
         }
     }
     deletePlotCard(treeid, plotid) {
@@ -123,16 +122,24 @@ class Plots extends Component {
         axios.put(`/api/editPlotCardSum/${treeid}/${plotid}`, { summaryInput })
             .then(() => this.toggleEditSum())
     }
-
     createTree(){
         let storyid = this.props.match.params.storyid
         let {treeInput} = this.state
         axios.post(`/api/createTree/${storyid}`, {treeInput})
         //set titles for selector and set tree title
         .then((res) => {
-            console.log(res)
-            this.setState({tree1: []}, this.toggleTree)})
+            this.setState({tree1: [], titles: res.data, tree1Title: res.data[0].title}, this.toggleTree())})
     }
+
+    updateTree(treeid){
+        let storyid = this.props.match.params.storyid
+        let {treeInput} = this.state
+
+        axios.put(`/api/updateTree/${storyid}/${treeid}`, {treeInput})
+        .then((res) => {
+            this.setState({tree1: [], titles: res.data.titles, tree1Title: res.data.updatedTree[0].title}, this.toggleTree())})
+    }
+
 
     titleMap() {
         let titles = this.state.titles.map((e) => {
@@ -150,68 +157,151 @@ class Plots extends Component {
         this.tree3Map()
     }
     tree1Map() {
+        if (this.state.tree1[0]) {
         return this.state.tree1.map(e => {
-            if (this.state.tree1[0]) {
+            // no plot yet not displaying
                 return (
-                    <div>
+                    <div className='plotCard'>
                         {/* plot order and done bool which will be accross from each other */}
                         {this.state.editToggleTitle && this.state.currentTitle === e.title ?
                             <div>
-                                <input placeholder='New Title' onChange={(e) => this.setState({ titleInput: e.target.value })}></input>
+                                <input className='plotInput' placeholder='New Title' onChange={(e) => this.setState({ titleInput: e.target.value })}></input>
                                 {/* axios put that takes in treeid and plotid call that rerenders page and resets editToggle title to false */}
                                 <div>
-                                    <button onClick={() => this.editPlotCardTitle(e.treeid, e.plotid)}>Save Changes</button>
-                                    <button onClick={this.toggleEditTitle}>Cancel</button>
+                                    <button className='plotBtns' onClick={() => this.editPlotCardTitle(e.treeid, e.plotid)}>Save Changes</button>
+                                    <button className='plotBtns' onClick={this.toggleEditTitle}>Cancel</button>
                                 </div>
                             </div>
-                            : <h2 onClick={() => this.toggleEditTitle(e.title)}>{e.title}</h2>}
+                            : <h2 className='titleH2' onClick={() => this.toggleEditTitle(e.title)}>{e.title}</h2>}
 
                         {this.state.editToggleSum && this.state.currentSum === e.summary ?
                             <div>
-                                <textarea placeholder='New Summary' onChange={(e) => this.setState({ summaryInput: e.target.value })}></textarea>
+                                <textarea className='plotText' placeholder='New Summary' onChange={(e) => this.setState({ summaryInput: e.target.value })}></textarea>
                                 <div>
-                                    <button onClick={() => this.editPlotCardSum(e.treeid, e.plotid)}>Save Changes</button>
-                                    <button onClick={this.toggleEditSum}>Cancel</button>
+                                    <button className='plotBtns' onClick={() => this.editPlotCardSum(e.treeid, e.plotid)}>Save Changes</button>
+                                    <button className='plotBtns' onClick={this.toggleEditSum}>Cancel</button>
                                 </div>
                             </div>
-                            : <p onClick={() => this.toggleEditSum(e.summary)}>{e.summary}</p>}
+                            : <p className='sumamryPara' onClick={() => this.toggleEditSum(e.summary)}>{e.summary}</p>}
                         <div>
                             {/* a function that takes in e.plotid and e.treeid */}
-                            <button onClick={() => this.deletePlotCard(e.treeid, e.plotid)}>Delete Card</button>
+                            <button className='plotBtns' onClick={() => this.deletePlotCard(e.treeid, e.plotid)}>Delete Card</button>
                         </div>
                     </div>
                 )
-            } else {
-                return (
-                    <p>No plots yet</p>
-                )
+            })
+        } else {
+            return (
+                <p>No plots yet</p>
+            )
 
-            }
-        })
-    }
+        }
+        }
     tree2Map() {
+        if (this.state.tree2[0]) {
         return this.state.tree2.map(e => {
-            // if(tree[1])
+            // no plot yet not displaying
+                return (
+                    <div className='plotCard'>
+                        {/* plot order and done bool which will be accross from each other */}
+                        {this.state.editToggleTitle && this.state.currentTitle === e.title ?
+                            <div>
+                                <input className='plotInput' placeholder='New Title' onChange={(e) => this.setState({ titleInput: e.target.value })}></input>
+                                {/* axios put that takes in treeid and plotid call that rerenders page and resets editToggle title to false */}
+                                <div>
+                                    <button className='plotBtns' onClick={() => this.editPlotCardTitle(e.treeid, e.plotid)}>Save Changes</button>
+                                    <button className='plotBtns' onClick={this.toggleEditTitle}>Cancel</button>
+                                </div>
+                            </div>
+                            : <h2 className='titleH2' onClick={() => this.toggleEditTitle(e.title)}>{e.title}</h2>}
+
+                        {this.state.editToggleSum && this.state.currentSum === e.summary ?
+                            <div>
+                                <textarea className='plotText' placeholder='New Summary' onChange={(e) => this.setState({ summaryInput: e.target.value })}></textarea>
+                                <div>
+                                    <button className='plotBtns' onClick={() => this.editPlotCardSum(e.treeid, e.plotid)}>Save Changes</button>
+                                    <button className='plotBtns' onClick={this.toggleEditSum}>Cancel</button>
+                                </div>
+                            </div>
+                            : <p className='sumamryPara' onClick={() => this.toggleEditSum(e.summary)}>{e.summary}</p>}
+                        <div>
+                            {/* a function that takes in e.plotid and e.treeid */}
+                            <button className='plotBtns' onClick={() => this.deletePlotCard(e.treeid, e.plotid)}>Delete Card</button>
+                        </div>
+                    </div>
+                )
+            })
+        } else {
             return (
-                <div>
-                    {/* plot order and done bool which will be accross from each other */}
-                    <h2>{e.title}</h2>
-                    <p>{e.summary}</p>
-                </div>
+                <p>No plots yet</p>
             )
-        })
-    }
+
+        }
+        }
     tree3Map() {
+        if (this.state.tree3[0]) {
         return this.state.tree3.map(e => {
+            // no plot yet not displaying
+                return (
+                    <div className='plotCard'>
+                        {/* plot order and done bool which will be accross from each other */}
+                        {this.state.editToggleTitle && this.state.currentTitle === e.title ?
+                            <div>
+                                <input className='plotInput' placeholder='New Title' onChange={(e) => this.setState({ titleInput: e.target.value })}></input>
+                                {/* axios put that takes in treeid and plotid call that rerenders page and resets editToggle title to false */}
+                                <div>
+                                    <button className='plotBtns' onClick={() => this.editPlotCardTitle(e.treeid, e.plotid)}>Save Changes</button>
+                                    <button className='plotBtns' onClick={this.toggleEditTitle}>Cancel</button>
+                                </div>
+                            </div>
+                            : <h2 className='titleH2' onClick={() => this.toggleEditTitle(e.title)}>{e.title}</h2>}
+
+                        {this.state.editToggleSum && this.state.currentSum === e.summary ?
+                            <div>
+                                <textarea className='plotText' placeholder='New Summary' onChange={(e) => this.setState({ summaryInput: e.target.value })}></textarea>
+                                <div>
+                                    <button className='plotBtns' onClick={() => this.editPlotCardSum(e.treeid, e.plotid)}>Save Changes</button>
+                                    <button className='plotBtns' onClick={this.toggleEditSum}>Cancel</button>
+                                </div>
+                            </div>
+                            : <p className='sumamryPara' onClick={() => this.toggleEditSum(e.summary)}>{e.summary}</p>}
+                        <div>
+                            {/* a function that takes in e.plotid and e.treeid */}
+                            <button className='plotBtns' onClick={() => this.deletePlotCard(e.treeid, e.plotid)}>Delete Card</button>
+                        </div>
+                    </div>
+                )
+            })
+        } else {
             return (
-                <div>
-                    {/* plot order and done bool which will be accross from each other */}
-                    <h2>{e.title}</h2>
-                    <p>{e.summary}</p>
-                </div>
+                <p>No plots yet</p>
             )
-        })
-    }
+
+        }
+        }
+    // tree2Map() {
+    //     return this.state.tree2.map(e => {
+    //         // if(tree[1])
+    //         return (
+    //             <div>
+    //                 {/* plot order and done bool which will be accross from each other */}
+    //                 <h2>{e.title}</h2>
+    //                 <p>{e.summary}</p>
+    //             </div>
+    //         )
+    //     })
+    // }
+    // tree3Map() {
+    //     return this.state.tree3.map(e => {
+    //         return (
+    //             <div>
+    //                 {/* plot order and done bool which will be accross from each other */}
+    //                 <h2>{e.title}</h2>
+    //                 <p>{e.summary}</p>
+    //             </div>
+    //         )
+    //     })
+    // }
     changeTree1(id) {
         let storyid = this.props.match.params.storyid
         let title = this.state.titles.filter(e => {
@@ -246,41 +336,85 @@ class Plots extends Component {
     }
 
     render() {
-        // console.log(this.state.tree1)
-        // console.log(this.titleMap())
-        console.log(this.state.modalToggle)
+        let {title} = this.props.match.params
         return (
             <div className='plotsBod'>
-                {/* each of these will have a selector box */}
-                        <button onClick={this.toggleTree}>Add Plot Tree</button>
-                        {this.state.treeToggle ? 
+                {/* each tree will have a selector box with all the tree titles */}
+                <div className='plotsHead'>
+                    <h1 className='plotH1'>{title}</h1>
+                        <button className='plotBtns' onClick={() => this.toggleTree()}>Add Plot Tree</button>
+                        {this.state.treeToggle && this.state.currentTree === '' ? 
                             <div>
-                            <input placeholder='New Tree Title' onChange={(e) => this.setState({treeInput: e.target.value})}></input>
-                            <button onClick={this.createTree}>Create Tree</button>
+                            <input className='plotInput' placeholder='New Tree Title' onChange={(e) => this.setState({treeInput: e.target.value})}></input>
+                            <button className='plotBtns' onClick={this.createTree}>Create Tree</button>
+                            <button className='plotBtns' onClick={this.toggleTree}>Cancel</button>
                             </div>
 
                             :null}
-                <div>tree 1
-                        <h1>{this.state.tree1Title}</h1>
-                    <div>
+                </div>
+                <div className='treefull'>
+                <div className='treeparts'>
+                {this.state.treeToggle && this.state.currentTree === this.state.tree1Title ?
+                            <div>
+                                <input className='plotInput' placeholder='New Tree Title' onChange={(e) => this.setState({ treeInput: e.target.value })}></input>
+                                {/* axios put that takes in treeid and plotid call that rerenders page and resets editToggle title to false */}
+                                <div>
+                                    <button className='plotBtns' onClick={() => this.updateTree(this.state.tree1id)}>Save Changes</button>
+                                    <button className='plotBtns' onClick={() => this.toggleTree()}>Cancel</button>
+                                </div>
+                            </div>
+                        :<h2 className='treeH2' onClick={() => this.toggleTree(this.state.tree1Title)}>{this.state.tree1Title}</h2>}
+                    {/* <div> */}
                         {/* add a funtionality for new plot tree it will automatically replace tree 1 in view */}
                         {/* make sure an alert is sounded that confirms deletion */}
-                        <button>Delete Plot Tree</button>
-                    </div>
+                        {/* <button>Delete Plot Tree</button> */}
+                    {/* </div> */}
                     <div>
-                        <select onChange={e => { this.changeTree1(e.target.value) }}>
+                        <select className='plotSelect' onChange={e => { this.changeTree1(e.target.value) }}>
                             <option value='null'>Select Plot Tree </option>
                             {this.titleMap()}
                         </select>
                     </div>
-                    {this.tree1Map()}
                     {/* this button will fire a modal that will take needed input and do axios call separate component: plotModal */}
-                    <button onClick={this.toggleModal}>Add Plot Card</button>
+                    <button className='plotBtns' onClick={this.toggleModal}>Add Plot Card</button>
+                    <div >
+                    {this.tree1Map()}
                     <Modal toggleModal={this.toggleModal} toggle={this.state.modalToggle} treeid={this.state.tree1id} tree1Map={this.tree1Map} />
-                    {/* add a delete tree function */}
+                    </div>
+                    {/* add a delete tree function nevermind */}
                 </div>
-                <div>tree 2
+                <div className='treeparts'>
+                {this.state.treeToggle && this.state.currentTree === this.state.tree2Title ?
+                            <div>
+                                <input className='plotInput' placeholder='New Tree Title' onChange={(e) => this.setState({ treeInput: e.target.value })}></input>
+                                {/* axios put that takes in treeid and plotid call that rerenders page and resets editToggle title to false */}
+                                <div>
+                                    <button className='plotBtns' onClick={() => this.updateTree(this.state.tree2id)}>Save Changes</button>
+                                    <button className='plotBtns' onClick={() => this.toggleTree()}>Cancel</button>
+                                </div>
+                            </div>
+                        :<h2 className='treeH2' onClick={() => this.toggleTree(this.state.tree2Title)}>{this.state.tree2Title}</h2>}
+                    {/* <div> */}
+                        {/* add a funtionality for new plot tree it will automatically replace tree 1 in view */}
+                        {/* make sure an alert is sounded that confirms deletion */}
+                        {/* <button>Delete Plot Tree</button> */}
+                    {/* </div> */}
                     <div>
+                        <select className='plotSelect' onChange={e => { this.changeTree2(e.target.value) }}>
+                            <option value='null'>Select Plot Tree </option>
+                            {this.titleMap()}
+                        </select>
+                    </div>
+                    {/* this button will fire a modal that will take needed input and do axios call separate component: plotModal */}
+                    <button className='plotBtns' onClick={this.toggleModal}>Add Plot Card</button>
+                    <div >
+                    {this.tree2Map()}
+                    <Modal toggleModal={this.toggleModal} toggle={this.state.modalToggle} treeid={this.state.tree2id} tree1Map={this.tree2Map} />
+                    </div>
+                    {/* add a delete tree function nevermind */}
+                </div>
+
+                    {/* <div>
                         <h1>{this.state.tree2Title}</h1>
                         <select onChange={e => { this.changeTree2(e.target.value) }}>
                             <option value='null'>Select Plot Tree </option>
@@ -288,18 +422,50 @@ class Plots extends Component {
                         </select>
                         {this.tree2Map()}
                     </div>
-                </div>
-                <div>tree 3
+                </div> */}
+                <div className='treeparts'>
+                {this.state.treeToggle && this.state.currentTree === this.state.tree3Title ?
+                            <div>
+                                <input className='plotInput' placeholder='New Tree Title' onChange={(e) => this.setState({ treeInput: e.target.value })}></input>
+                                {/* axios put that takes in treeid and plotid call that rerenders page and resets editToggle title to false */}
+                                <div>
+                                    <button className='plotBtns' onClick={() => this.updateTree(this.state.tree3id)}>Save Changes</button>
+                                    <button className='plotBtns' onClick={() => this.toggleTree()}>Cancel</button>
+                                </div>
+                            </div>
+                        :<h2 className='treeH2' onClick={() => this.toggleTree(this.state.tree3Title)}>{this.state.tree3Title}</h2>}
+                    {/* <div> */}
+                        {/* add a funtionality for new plot tree it will automatically replace tree 1 in view */}
+                        {/* make sure an alert is sounded that confirms deletion */}
+                        {/* <button>Delete Plot Tree</button> */}
+                    {/* </div> */}
                     <div>
-                        <h1>{this.state.tree3Title}</h1>
-                        <select onChange={e => { this.changeTree3(e.target.value) }}>
+                        <select className='plotSelect' onChange={e => { this.changeTree3(e.target.value) }}>
                             <option value='null'>Select Plot Tree </option>
                             {this.titleMap()}
                         </select>
-                        {this.tree3Map()}
                     </div>
+                    {/* this button will fire a modal that will take needed input and do axios call separate component: plotModal */}
+                    <button className='plotBtns' onClick={this.toggleModal}>Add Plot Card</button>
+                    <div >
+                    {this.tree3Map()}
+                    <Modal toggleModal={this.toggleModal} toggle={this.state.modalToggle} treeid={this.state.tree3id} tree1Map={this.tree3Map} />
+                    </div>
+                    {/* add a delete tree function nevermind */}
+                </div>
+                </div>
+                {/* <div>
+                    <h1>{this.state.tree3Title}</h1>
+                    <select onChange={e => { this.changeTree3(e.target.value) }}>
+                        <option value='null'>Select Plot Tree </option>
+                        {this.titleMap()}
+                    </select>
+                    {this.tree3Map()}
                 </div>
             </div>
+        </div>
+        </div> */}
+</div>
         )
     }
 }

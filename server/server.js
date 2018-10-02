@@ -280,8 +280,18 @@ app.post('/api/createTree/:storyid', async (req, res) => {
     let {treeInput} = req.body
     
     let newTree = await db.plot.create_tree(storyid, treeInput)
-
     res.send(newTree)
+})
+
+app.put('/api/updateTree/:storyid/:treeid', async (req, res) => {
+    const db = req.app.get('db')
+    let {storyid, treeid} = req.params
+    let {treeInput} = req.body
+
+    let updatedTree = await db.plot.update_tree(storyid, treeInput, treeid)
+    let titles = await db.plot.get_tree_titles(storyid)
+
+    res.send({updatedTree, titles})
 })
 
 app.get('/api/logout', (req, res) => {
