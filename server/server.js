@@ -235,6 +235,55 @@ app.get('/api/tree/:treeid/:storyid', async (req, res) => {
     res.send(tree)
 })
 
+app.post('/api/createPlotCard/:treeid', async (req, res) => {
+    const db = req.app.get('db')
+    let {treeid} = req.params
+    let {titleInput, summaryInput} = req.body
+
+    let createdPlot = await db.plot.create_plot_card(treeid, titleInput, summaryInput)
+
+    res.sendStatus(200)
+})
+
+app.delete('/api/deletePlotCard/:treeid/:plotid', async (req, res) => {
+    const db = req.app.get('db')
+    let {treeid, plotid} = req.params
+
+    let deletedCard = await db.plot.delete_plot_card(treeid, plotid)
+
+    res.sendStatus(200)
+})
+
+app.put('/api/editPlotCardTitle/:treeid/:plotid', async (req, res) => {
+    const db = req.app.get('db')
+    let {treeid, plotid} = req.params
+    let {titleInput} = req.body
+
+    let updatedTitle = await db.plot.update_plot_card_title(treeid, plotid, titleInput)
+
+    res.sendStatus(200)
+})
+
+app.put('/api/editPlotCardSum/:treeid/:plotid', async (req, res) => {
+    const db = req.app.get('db')
+    let {treeid, plotid} = req.params
+    let {summaryInput} = req.body
+
+    let updatedSum = await db.plot.update_plot_card_sum(treeid, plotid, summaryInput)
+
+    res.sendStatus(200)
+})
+
+app.post('/api/createTree/:storyid', async (req, res) => {
+    const db = req.app.get('db')
+    let {storyid} = req.params
+    let {treeInput} = req.body
+    
+    let newTree = await db.plot.create_tree(storyid, treeInput)
+
+    res.send(newTree)
+})
+
 app.get('/api/logout', (req, res) => {
     req.session.destroy()
 })
