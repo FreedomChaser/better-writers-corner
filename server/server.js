@@ -92,6 +92,10 @@ app.delete('/api/deleteStory/:storyid', async (req, res) => {
     let { storyid } = req.params
 
     let deletedChara = await db.characters.delete_all(storyid)
+
+    let deletedPlot = await db.plot.delete_all_plots(storyid)
+
+    let deletedTrees = await db.plot.delete_all_trees(storyid)
     //will eventually need to add a plot AND plot tree delete all
     let deletedStory = await db.stories.delete_story(userid, storyid)
 
@@ -225,20 +229,34 @@ app.post('/api/updateChara/:storyid/:characterid', async (req, res) => {
 
 app.get('/api/getPlotContent/:storyid', async (req, res) => {
     const db = req.app.get('db')
-    let {storyid} = req.params
+    let { storyid } = req.params
+    let tree2
+    let tree3
+    try {
+        let titles = await db.plot.get_tree_titles(storyid)
+        // console.log(titles[0].treeid)
+        let tree1 = await db.plot.get_tree(titles[0].treeid, storyid)
+        if (titles[1]) {
+            tree2 = await db.plot.get_tree(titles[1].treeid, storyid)
+        }
+        if (titles[2]) {
+            tree3 = await db.plot.get_tree(titles[2].treeid, storyid)
+        }
+        if (titles[2]) {
+            res.send({ titles, tree1, tree2, tree3 })
+        } else if (titles[1]) {
+            res.send({ titles, tree1, tree2 })
+        } else {
+            res.send({ titles, tree1 })
+        }
+        // .catch(err => console.log(err))
 
-    let titles = await db.plot.get_tree_titles(storyid)
-    // console.log(titles[0].treeid)
-    let tree1 = await db.plot.get_tree(titles[0].treeid, storyid)
-    let tree2 = await db.plot.get_tree(titles[1].treeid, storyid)
-    let tree3 = await db.plot.get_tree(titles[2].treeid, storyid)
-
-    res.send({titles, tree1, tree2, tree3})
+    } catch (e) { console.log(e) }
 })
 
 app.get('/api/tree/:treeid/:storyid', async (req, res) => {
     const db = req.app.get('db')
-    let {treeid, storyid} = req.params
+    let { treeid, storyid } = req.params
 
     let tree = await db.plot.get_tree(treeid, storyid)
 
@@ -247,8 +265,8 @@ app.get('/api/tree/:treeid/:storyid', async (req, res) => {
 
 app.post('/api/createPlotCard/:treeid', async (req, res) => {
     const db = req.app.get('db')
-    let {treeid} = req.params
-    let {titleInput, summaryInput} = req.body
+    let { treeid } = req.params
+    let { titleInput, summaryInput } = req.body
 
     let createdPlot = await db.plot.create_plot_card(treeid, titleInput, summaryInput)
 
@@ -257,7 +275,7 @@ app.post('/api/createPlotCard/:treeid', async (req, res) => {
 
 app.delete('/api/deletePlotCard/:treeid/:plotid', async (req, res) => {
     const db = req.app.get('db')
-    let {treeid, plotid} = req.params
+    let { treeid, plotid } = req.params
 
     let deletedCard = await db.plot.delete_plot_card(treeid, plotid)
 
@@ -266,8 +284,8 @@ app.delete('/api/deletePlotCard/:treeid/:plotid', async (req, res) => {
 
 app.put('/api/editPlotCardTitle/:treeid/:plotid', async (req, res) => {
     const db = req.app.get('db')
-    let {treeid, plotid} = req.params
-    let {titleInput} = req.body
+    let { treeid, plotid } = req.params
+    let { titleInput } = req.body
 
     let updatedTitle = await db.plot.update_plot_card_title(treeid, plotid, titleInput)
 
@@ -276,8 +294,8 @@ app.put('/api/editPlotCardTitle/:treeid/:plotid', async (req, res) => {
 
 app.put('/api/editPlotCardSum/:treeid/:plotid', async (req, res) => {
     const db = req.app.get('db')
-    let {treeid, plotid} = req.params
-    let {summaryInput} = req.body
+    let { treeid, plotid } = req.params
+    let { summaryInput } = req.body
 
     let updatedSum = await db.plot.update_plot_card_sum(treeid, plotid, summaryInput)
 
@@ -286,36 +304,35 @@ app.put('/api/editPlotCardSum/:treeid/:plotid', async (req, res) => {
 
 app.post('/api/createTree/:storyid', async (req, res) => {
     const db = req.app.get('db')
-    let {storyid} = req.params
-    let {treeInput} = req.body
-    
+    let { storyid } = req.params
+    let { treeInput } = req.body
+
     let newTree = await db.plot.create_tree(storyid, treeInput)
     res.send(newTree)
 })
 
 app.put('/api/updateTree/:storyid/:treeid', async (req, res) => {
     const db = req.app.get('db')
-    let {storyid, treeid} = req.params
-    let {treeInput} = req.body
+    let { storyid, treeid } = req.params
+    let { treeInput } = req.body
 
     let updatedTree = await db.plot.update_tree(storyid, treeInput, treeid)
     let titles = await db.plot.get_tree_titles(storyid)
 
-    res.send({updatedTree, titles})
+    res.send({ updatedTree, titles })
 })
 
 app.put('/api/setOrder', async (req, res) => {
     const db = req.app.get('db')
-    let {orderedTree} = req.body
-    console.log(orderedTree)
-    let order = await orderedTree.forEach(order => 
-        {db.plot_card.save(order)})
+    let { orderedTree } = req.body
+    // console.log(orderedTree)
+    let order = await orderedTree.forEach(order => { db.plot_card.save(order) })
     // let newOrder
     //have the return query include an order by plot_order(I think ascending) and send that array to the front, then I shouldn't need to change anything on the front end
     res.sendStatus(200)
-    .catch(err => {
-        console.log(err)
-    })
+        .catch(err => {
+            console.log(err)
+        })
 })
 
 app.get('/api/logout', (req, res) => {

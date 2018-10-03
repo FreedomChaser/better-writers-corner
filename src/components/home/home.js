@@ -89,7 +89,6 @@ class Home extends Component {
     }
     //just do an axios then rerender stories
     addStory() {
-        let { modalInput } = this.state
         axios.post('/api/addStory', { title: this.state.modalInput })
             .then(() => this.getStories())
     }
@@ -147,7 +146,7 @@ class Home extends Component {
 
                 return( 
                     <div style={{position: 'relative'}}>                    
-                    {ea.title != '+' ?
+                    {ea.title !== '+' ?
                         //onClick for sub menues 
                         <button className='radMenuBtn' onClick={() => {
                             this.toggleSub()

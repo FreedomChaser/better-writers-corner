@@ -1,0 +1,3 @@
+-- need to join tree and plot to delete
+-- delete from plot_card
+-- where storyid = $1
