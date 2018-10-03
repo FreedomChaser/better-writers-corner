@@ -12,6 +12,7 @@
 //drag and drop for trees
 
 //!!!!in delete story I need to add a call to delete plots!!!
+//!!!toggle fix
 
 import React, { Component } from 'react'
 import axios from 'axios'
@@ -44,6 +45,7 @@ class Plots extends Component {
             treeInput: '',
             treeToggle: false,
             currentTree: '',
+            start: null,
         }
         this.toggleModal = this.toggleModal.bind(this)
         this.getContent = this.getContent.bind(this)
@@ -59,6 +61,14 @@ class Plots extends Component {
         this.toggleEditSum = this.toggleEditSum.bind(this)
         this.toggleTree = this.toggleTree.bind(this)
         this.createTree = this.createTree.bind(this)
+        this.dragStart = this.dragStart.bind(this)
+        this.drop1 = this.drop1.bind(this)
+        this.drop2 = this.drop2.bind(this)
+        this.drop3 = this.drop3.bind(this)
+        this.dragOver = this.dragOver.bind(this)
+        this.createOrder1 = this.createOrder1.bind(this)
+        this.createOrder2 = this.createOrder2.bind(this)
+        this.createOrder3 = this.createOrder3.bind(this)
     }
 
     componentDidMount() {
@@ -130,7 +140,6 @@ class Plots extends Component {
         .then((res) => {
             this.setState({tree1: [], titles: res.data, tree1Title: res.data[0].title}, this.toggleTree())})
     }
-
     updateTree(treeid){
         let storyid = this.props.match.params.storyid
         let {treeInput} = this.state
@@ -139,12 +148,62 @@ class Plots extends Component {
         .then((res) => {
             this.setState({tree1: [], titles: res.data.titles, tree1Title: res.data.updatedTree[0].title}, this.toggleTree())})
     }
+    dragStart(e, i){
+        this.setState({start:i})
+        // console.log('start',this.state.start)
+    }
+    dragOver(e){
+        // console.log(e)
+        e.preventDefault()
+    }
+    //create a function that takes in an arr and orders it by id and invoke it as part of set state
+    async createOrder1(){
+        let orderedTree = await this.state.tree1.map((e, i) => {
+            return {plotid: e.plotid, plot_order: i}
+        })
+        let orderSubmit = await axios.put('/api/setOrder', {orderedTree})
 
+        // console.log(orderSubmit)
+    }
+    async createOrder2(){
+        let orderedTree = await this.state.tree2.map((e, i) => {
+            return {plotid: e.plotid, plot_order: i}
+        })
+        let orderSubmit = await axios.put('/api/setOrder', {orderedTree})
 
+        // console.log(orderSubmit)
+    }
+    async createOrder3(){
+        let orderedTree = await this.state.tree3.map((e, i) => {
+            return {plotid: e.plotid, plot_order: i}
+        })
+        let orderSubmit = await axios.put('/api/setOrder', {orderedTree})
+
+        // console.log(orderSubmit)
+    }
+    drop1(e, i){
+       let tree1Copy = this.state.tree1.slice()
+       let moving = tree1Copy.splice(this.state.start, 1)[0]
+       tree1Copy.splice(i, 0, moving)
+       //!!!!!can't invoke in this callback
+       this.setState({tree1: tree1Copy}, this.createOrder1) 
+    }
+    drop2(e, i){
+       let tree2Copy = this.state.tree2.slice()
+       let moving = tree2Copy.splice(this.state.start, 1)[0]
+       tree2Copy.splice(i, 0, moving)
+       this.setState({tree2: tree2Copy}, this.createOrder2) 
+    }
+    drop3(e, i){
+       let tree3Copy = this.state.tree3.slice()
+       let moving = tree3Copy.splice(this.state.start, 1)[0]
+       tree3Copy.splice(i, 0, moving)
+       this.setState({tree3: tree3Copy}, this.createOrder3) 
+    }
     titleMap() {
         let titles = this.state.titles.map((e) => {
             return (
-                <option value={`${e.treeid}`}>{e.title}</option>
+                <option value={e.treeid}>{e.title}</option>
             )
         })
 
@@ -158,10 +217,17 @@ class Plots extends Component {
     }
     tree1Map() {
         if (this.state.tree1[0]) {
-        return this.state.tree1.map(e => {
+        return this.state.tree1.map((e, i) => {
             // no plot yet not displaying
                 return (
-                    <div className='plotCard'>
+                    // !!!!build drag n drop functions!!!!!!!
+                    <div 
+                        className='plotCard'  
+                        key={i} 
+                        draggable
+                        onDragStart={e => this.dragStart(e, i)}
+                        onDragOver={this.dragOver}
+                        onDrop={e => this.drop1(e,i)}>
                         {/* plot order and done bool which will be accross from each other */}
                         {this.state.editToggleTitle && this.state.currentTitle === e.title ?
                             <div>
@@ -199,10 +265,16 @@ class Plots extends Component {
         }
     tree2Map() {
         if (this.state.tree2[0]) {
-        return this.state.tree2.map(e => {
+        return this.state.tree2.map((e, i) => {
             // no plot yet not displaying
                 return (
-                    <div className='plotCard'>
+                    <div 
+                    className='plotCard'
+                    key={i} 
+                        draggable
+                        onDragStart={e => this.dragStart(e, i)}
+                        onDragOver={this.dragOver}
+                        onDrop={e => this.drop2(e,i)}>
                         {/* plot order and done bool which will be accross from each other */}
                         {this.state.editToggleTitle && this.state.currentTitle === e.title ?
                             <div>
@@ -240,10 +312,16 @@ class Plots extends Component {
         }
     tree3Map() {
         if (this.state.tree3[0]) {
-        return this.state.tree3.map(e => {
+        return this.state.tree3.map((e, i) => {
             // no plot yet not displaying
                 return (
-                    <div className='plotCard'>
+                    <div 
+                    className='plotCard'
+                    key={i} 
+                        draggable
+                        onDragStart={e => this.dragStart(e, i)}
+                        onDragOver={this.dragOver}
+                        onDrop={e => this.drop3(e,i)}>
                         {/* plot order and done bool which will be accross from each other */}
                         {this.state.editToggleTitle && this.state.currentTitle === e.title ?
                             <div>

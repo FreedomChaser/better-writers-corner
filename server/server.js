@@ -111,41 +111,51 @@ app.post('/api/addStory', async (req, res) => {
 app.post('/save-stripe-token', async (req, res) => {
     const db = req.app.get
     const { token } = req.body
-    let { userid } = req.sessions
+    // let { userid } = req.sessions
+
+    const charge = stripe.charges.create({
+        amount: 100,
+        currency: 'usd',
+        description: 'Writers Corner',
+        source: token,
+        capture: false,
+    })
+
+    res.sendStatus(200)
 
     // add a column for customerid to db
     //fix add customer feature 
-    let foundCustomer = await db.login.find_customer(userid)
+    // let foundCustomer = await db.login.find_customer(userid)
 
-    if (foundCustomer) {
+    // if (foundCustomer) {
 
-        const charge = await stripe.charges.create({
-            amount: 100,
-            currency: 'usd',
-            customer: foundCustomer
-        })
+    //     const charge = await stripe.charges.create({
+    //         amount: 100,
+    //         currency: 'usd',
+    //         customer: foundCustomer
+    //     })
 
-        res.sendStatus(200)
+    //     res.sendStatus(200)
 
-    } else {
-        const customer = await stripe.customers.create({
-            source: token,
-            email: ''
-        })
+    // } else {
+    //     const customer = await stripe.customers.create({
+    //         source: token,
+    //         email: ''
+    //     })
 
-        // req.session.customerid = customer.id
+    //     // req.session.customerid = customer.id
 
-        const charge = await stripe.charges.create({
-            amount: 100,
-            currency: 'usd',
-            customer: customer.id,
-            // source: token
-        })
+    //     const charge = await stripe.charges.create({
+    //         amount: 100,
+    //         currency: 'usd',
+    //         customer: customer.id,
+    //         // source: token
+    //     })
 
-        let createdCustomer = await db.login.add_customer_id(customer)
+    //     let createdCustomer = await db.login.add_customer_id(customer)
 
-        res.sendStatus(200)
-    }
+    //     res.sendStatus(200)
+    // }
 })
 
 app.post('/api/addChara/:storyid', async (req, res) => {
@@ -292,6 +302,20 @@ app.put('/api/updateTree/:storyid/:treeid', async (req, res) => {
     let titles = await db.plot.get_tree_titles(storyid)
 
     res.send({updatedTree, titles})
+})
+
+app.put('/api/setOrder', async (req, res) => {
+    const db = req.app.get('db')
+    let {orderedTree} = req.body
+    console.log(orderedTree)
+    let order = await orderedTree.forEach(order => 
+        {db.plot_card.save(order)})
+    // let newOrder
+    //have the return query include an order by plot_order(I think ascending) and send that array to the front, then I shouldn't need to change anything on the front end
+    res.sendStatus(200)
+    .catch(err => {
+        console.log(err)
+    })
 })
 
 app.get('/api/logout', (req, res) => {

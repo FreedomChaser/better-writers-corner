@@ -7,14 +7,13 @@
 
 //PROBLEMS
 //!!!onClick submenu stays
-//!!!change quote axios
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { updateUserid } from '../ducks/reducer'
 import StripeCheckout from 'react-stripe-checkout'
-import RadialTest from './radialTest'
+// import RadialTest from './radialTest'
 import { relative } from 'path';
 
 class Home extends Component {
@@ -115,7 +114,7 @@ class Home extends Component {
         this.setState({storyid: storyid })
     }
     subMenuDisplay(title, origin) {
-        console.log('submenu display method firing')
+        // console.log('submenu display method firing')
         // let left = this.state.titles[0]
         // let top = this.state.titles[1]
 
@@ -136,31 +135,9 @@ class Home extends Component {
 
 
     render() {
-        // console.log(process.env.REACT_APP_STRIPE_TEST_PUBLISHABLE )
-        // let menu = this.state.stories.map((e, i) => {
-        //     let l = this.state.stories.length
-        //     let top = (50 + 35 * Math.sin(-0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%";
-        //     let left = (50 - 35 * Math.cos(-0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%";
-        //     return (
-        //         // classname = on click for circle and open
-        //         <div key={i} className={this.state.menuToggle ? 'open circle' : 'circle'} style={this.state.menuToggle ? { left, top } : {}}>
-        //             {e.title != '+' ?
-        //                 //onClick for sub menues                        
-        //                 <button className='radMenuBtn' onClick={() => {
-        //                     this.toggleSub()
-        //                     this.subMenuVals(e.storyid)
-        //                 }}>{e.title}</button>
-        //                 //on click for add story model
-        //                 : <button id="radMenuBtn" onClick={this.toggleModal}>{e.title}</button>
-        //             }
-        //             {this.state.storyid === e.storyid ? this.subMenuDisplay(e.title) : null}
-        //         </div>
-        //     )
-        // })
-
         let deg = 360/(1 + Number(this.state.storyNum))
         let origin = 0-deg
-        console.log(this.state.stories)
+        // console.log(this.state.stories)
         // console.log(this.state.storyNum)
         // console.log({deg, origin})
         let menu = this.state.stories.map(ea => {
@@ -188,20 +165,6 @@ class Home extends Component {
                 }
             })
         
-        //         console.log('menu toggle', this.state.menuToggle)
-        //         console.log('submenu toggle', this.state.subToggle);
-        //         origin += deg
-        //         return(
-        //             <div>
-        //                 {/* ea.title != '+' ? */}
-        //             <button className='radMenuBtn' onClick={this.toggleSub} style={{height: '200px', position: 'absolute', transform: `rotate(${origin}deg)`, transformOrigin: '0 100%'}}>{ea.title}</button>
-        //             {this.state.subToggle ? this.subMenuDisplay() : null}
-        //             </div>
-        //         )
-        //     }else{
-        //         return null
-        //     }
-        // })
         return (
             <div>
 
