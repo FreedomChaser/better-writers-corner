@@ -8,6 +8,8 @@ const stripe = require('stripe')(process.env.REACT_APP_STRIPE_TEST_SECRET)
 
 const app = express()
 
+app.use( express.static( `${__dirname}/../build` ) );
+
 app.use(bodyParser.json())
 
 const {

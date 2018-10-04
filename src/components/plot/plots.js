@@ -46,7 +46,8 @@ class Plots extends Component {
             treeToggle: false,
             currentTree: '',
             start: null,
-            currentModal: 0
+            currentModal: 0,
+            showPopout: false
         }
         this.toggleModal = this.toggleModal.bind(this)
         this.getContent = this.getContent.bind(this)
@@ -70,6 +71,7 @@ class Plots extends Component {
         this.createOrder1 = this.createOrder1.bind(this)
         this.createOrder2 = this.createOrder2.bind(this)
         this.createOrder3 = this.createOrder3.bind(this)
+        this.togglePopout = this.togglePopout.bind(this)
     }
 
     componentDidMount() {
@@ -129,6 +131,9 @@ class Plots extends Component {
         } else {
             this.setState({ treeToggle: !this.state.treeToggle, currentTree: '' }, this.getContent)
         }
+    }
+    togglePopout(){
+        this.setState({showPopout: !this.state.showPopout})
     }
     deletePlotCard(treeid, plotid) {
         axios.delete(`/api/deletePlotCard/${treeid}/${plotid}`)
@@ -513,6 +518,7 @@ class Plots extends Component {
                             {this.state.modalToggle && this.state.currentModal === this.state. tree2id ?
                             <Modal toggleModal={this.toggleModal} toggle={this.state.modalToggle} treeid={this.state.tree2id} tree1Map={this.tree2Map} />
                             :null}
+                            {/* add button and bring in pop component with props for treeid */}
                         </div>
                         {/* add a delete tree function nevermind */}
                     </div>
