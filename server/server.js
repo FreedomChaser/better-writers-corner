@@ -8,7 +8,7 @@ const stripe = require('stripe')(process.env.REACT_APP_STRIPE_TEST_SECRET)
 
 const app = express()
 
-app.use( express.static( `${__dirname}/../build` ) );
+
 
 app.use(bodyParser.json())
 
@@ -22,7 +22,8 @@ const {
     DEV_KEY,
     AUTH_ID,
     REACT_APP_STRIPE_TEST_PUBLISHABLE,
-    REACT_APP_STRIPE_TEST_SECRET
+    REACT_APP_STRIPE_TEST_SECRET,
+    PROTOCOL
 } = process.env
 
 app.use(session({
@@ -41,7 +42,7 @@ app.get('/auth/callback', async (req, res) => {
         client_secret: CLIENT_SECRET,
         code: req.query.code,
         grant_type: 'authorization_code',
-        redirect_uri: `http://${req.headers.host}/auth/callback`
+        redirect_uri: `${PROTOCOL}://${req.headers.host}/auth/callback`
     }
     let resWithToken = await axios.post(`https://${REACT_APP_DOMAIN}/oauth/token`, payload)
     let resWithUserData = await axios.get(`https://${REACT_APP_DOMAIN}/userinfo/?access_token=${resWithToken.data.access_token}`)
