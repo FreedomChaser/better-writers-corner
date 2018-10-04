@@ -61,7 +61,7 @@ app.get('/auth/callback', async (req, res) => {
 
 app.get('/api/userData', async (req, res) => {
     const db = req.app.get('db')
-
+    
     if (DEV_KEY === 'true') {
         let user = await db.login.find_user(AUTH_ID)
         req.session.userid = user[0].userid

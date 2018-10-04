@@ -185,16 +185,17 @@ a{
 /* home */
 .subBtn{
   height: 8vh;
-  width: 8vw;
+  width: 100px;
+  margin: 15px 0;
   border-radius: 50%;
   background-color: #a0d6b4;
   border-style: none;
-  /* color: white */
+  transform: rotate(-90deg);
 }
 
 .radMenuBtn{
-  height: 10vh;
-  width: 12vh;
+  height: 200px;
+  width: 100px;
   border-radius: 50%;
   background-color: 	#317873;
   border-style: none;
@@ -204,18 +205,26 @@ a{
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 20vh;
-  /* height: 500px */
+  height: 100vh;
+  width: 100vw;
 }
-.homeSubBtns{}
+.homeSubBtns{
+  height: 300px;
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: -300px;
+}
 
 .radialMenu{
   position: absolute;
-  top: calc(45%);
-  left: calc(47%);
+  top: -100px;
+  left: -25px;
   z-index: 5;
-  width: 7vw;
-  height: 7vw;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   background-color: #a3c1ad;
   border-style: none
@@ -223,9 +232,17 @@ a{
 
 .radBtns{
   display: flex;
-  align-items: center
+  align-items: center;
+  position: relative;
 }
-
+.rotation-container {
+    height: 250px;
+    width: 100px;
+    top: -300px;
+    left: -25px;
+    position: absolute;
+    transform-origin: 50% 100%; 
+}
 
 
 /* chara */
