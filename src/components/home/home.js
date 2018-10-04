@@ -7,14 +7,13 @@
 
 //PROBLEMS
 //!!!onClick submenu stays
-//!!!change quote axios
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { updateUserid } from '../ducks/reducer'
 import StripeCheckout from 'react-stripe-checkout'
-import RadialTest from './radialTest'
+// import RadialTest from './radialTest'
 import { relative } from 'path';
 
 class Home extends Component {
@@ -86,35 +85,34 @@ class Home extends Component {
   //     this.subMenuVals()
   // }
 
-  addClick() {
-    this.addStory()
-    this.toggleModal()
-  }
-  //just do an axios then rerender stories
-  addStory() {
-    let { modalInput } = this.state
-    axios.post('/api/addStory', { title: this.state.modalInput })
-      .then(() => this.getStories())
-  }
-  //add in stripe functionality and then run the axios call and rerender stories
-  buyStory = (token) => {
-    fetch('/save-stripe-token', {
-      method: 'POST',
-      body: JSON.stringify(token),
-    }).then(() => { this.addStory() })
-  }
+    addClick() {
+        this.addStory()
+        this.toggleModal()
+    }
+    //just do an axios then rerender stories
+    addStory() {
+        axios.post('/api/addStory', { title: this.state.modalInput })
+            .then(() => this.getStories())
+    }
+    //add in stripe functionality and then run the axios call and rerender stories
+    buyStory = (token) => {
+        fetch('/save-stripe-token', {
+            method: 'POST',
+            body: JSON.stringify(token),
+        }).then(() => {this.addStory()})
+     }
 
-  deleteStory(storyid) {
-    axios.delete(`/api/deleteStory/${storyid}`)
-      .then(() => this.getStories())
+     deleteStory(storyid) {
+      axios.delete(`/api/deleteStory/${storyid}`)
+          .then(() => this.getStories())
   }
 
   // renameStory(storyid){}
 
   subMenuVals(storyid) {
-    // let newTitle = this.state.titles
-    // newTitle[title] = [left, top]
-    this.setState({ storyid: storyid })
+      // let newTitle = this.state.titles
+      // newTitle[title] = [left, top]
+      this.setState({storyid: storyid })
   }
   subMenuDisplay(title, origin) {
     console.log('submenu display method firing')

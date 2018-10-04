@@ -32,6 +32,7 @@ export default class Modal extends Component {
         })
     }
     render() {
+        console.log(this.props.treeid)
         return (
             <div>
                 {this.props.toggle ? <div>
