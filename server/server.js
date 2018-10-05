@@ -48,7 +48,7 @@ app.get('/auth/callback', async (req, res) => {
     let resWithUserData = await axios.get(`https://${REACT_APP_DOMAIN}/userinfo/?access_token=${resWithToken.data.access_token}`)
 
     const db = req.app.get('db')
-    let { sub } = resWithUserData.data
+    let { sub, email } = resWithUserData.data
 
     let foundUser = await db.login.find_user([sub])
 
@@ -56,7 +56,7 @@ app.get('/auth/callback', async (req, res) => {
         req.session.userid = foundUser[0].userid
         res.redirect('/#/home')
     } else {
-        let createdUser = await db.login.create_user(sub)
+        let createdUser = await db.login.create_user(email, sub)
         req.session.userid = createdUser[0].userid
         res.redirect('/#/home')
     }
