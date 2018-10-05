@@ -203,6 +203,7 @@ class Home extends Component {
     //         return null
     //     }
     // })
+    console.log(this.state.storyNum[0])
     return (
       <div>
 
@@ -239,7 +240,7 @@ class Home extends Component {
                   {/* // <button>Buy Story ($1.00)</button>} */}
                   <button className='addStoryBtn' onClick={this.toggleModal}>Cancel</button>
                 </div>
-                <sub>*The first two story boards are free, if you find Writers Corner helpful you can purchase additional story boards for just $1.00.</sub>
+                <sub>*The first two story boards are free, but if you find Writers Corner helpful you can purchase additional story boards for just $1.00.</sub>
               </div>
             </ div>
           </div>

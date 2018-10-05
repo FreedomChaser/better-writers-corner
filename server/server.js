@@ -72,6 +72,7 @@ app.get('/api/userData', async (req, res) => {
         res.status(200).send({ userid })
     } else {
         if (req.session.userid) {
+            let{userid} = req.session
             res.status(200).send({ userid })
         } else {
             res.status(401).send('Please Login')
