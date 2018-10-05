@@ -8,7 +8,7 @@ const stripe = require('stripe')(process.env.REACT_APP_STRIPE_TEST_SECRET)
 
 const app = express()
 
-
+app.use( express.static( `${__dirname}/../build` ) );
 
 app.use(bodyParser.json())
 
@@ -71,7 +71,7 @@ app.get('/api/userData', async (req, res) => {
         let { userid } = req.session
         res.status(200).send({ userid })
     } else {
-        if (userid) {
+        if (req.session.userid) {
             res.status(200).send({ userid })
         } else {
             res.status(401).send('Please Login')
@@ -94,12 +94,6 @@ app.delete('/api/deleteStory/:storyid', async (req, res) => {
     let { userid } = req.session
     let { storyid } = req.params
 
-    let deletedChara = await db.characters.delete_all(storyid)
-
-    let deletedPlot = await db.plot.delete_all_plots(storyid)
-
-    let deletedTrees = await db.plot.delete_all_trees(storyid)
-    //will eventually need to add a plot AND plot tree delete all
     let deletedStory = await db.stories.delete_story(userid, storyid)
 
     res.sendStatus(200)
