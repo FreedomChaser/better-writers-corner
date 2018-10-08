@@ -49,6 +49,9 @@ body{
   font-weight: bolder;
   font-size: 1.25vw
 }
+.addStoryBtn:hover{
+  background-color: #0aa0dc
+}
 
 .modalBtns{
   margin: 10px 0 10px 0;
@@ -171,9 +174,13 @@ body{
   font-size: 3vw;
   color: white
 }
+.navH1:hover{
+  color: lightgrey
+}
 .navBtn{
   /* box-shadow: 1px 2px #49796b; */
   background-color: 	#49796b;
+  cursor: pointer;
   /* border-radius: 3px; */
   border-style: none;
   color: white;
@@ -182,9 +189,15 @@ body{
   font-size: 1em;
   margin-right: 10px
 }
+.navBtn:hover{
+  color: lightgrey;
+}
 a{
   text-decoration: none
 }
+/* a:hover{
+  text-decoration: underline
+} */
 /* home */
 .subBtn{
   height: 8vh;
@@ -194,15 +207,22 @@ a{
   background-color: #a0d6b4;
   border-style: none;
   transform: rotate(-90deg);
+  cursor: pointer;
 }
-
+.subBtn:hover{
+  background-color: #88cca1
+}
 .radMenuBtn{
   height: 200px;
   width: 100px;
   border-radius: 50%;
   background-color: 	#317873;
   border-style: none;
-  color: white
+  color: white;
+  cursor: pointer;
+}
+.radMenuBtn:hover{
+  background-color: #2c6c67
 }
 .homeMenu{
   display: flex;
@@ -230,9 +250,12 @@ a{
   height: 100px;
   border-radius: 50%;
   background-color: #a3c1ad;
-  border-style: none
+  border-style: none;
+  cursor: pointer;
 }
-
+.radialMenu:hover{
+  background-color: #99baa4
+}
 .radBtns{
   display: flex;
   align-items: center;
@@ -250,7 +273,7 @@ a{
 
 /* chara */
 .charaH1{
-  color: white;
+  color: #e4f6f6;
   font-size: 2.5vw;
   margin: 10px
 }
@@ -281,7 +304,11 @@ a{
   border-style: none;
   height: 40px;
   font-size: 1.5vw;
+  cursor: pointer;
   /* padding: 5px */
+}
+.charaAddBtn:hover{
+  background-color: #3ab2ae
 }
 
 .charaH2{
@@ -297,9 +324,13 @@ a{
 .charaDelBtn{
   border-radius: 3px;
   border-style: none;
-  background-color: #9dd5d4;
+  background-color: #3ebfbb;
   height: 25px;
-  margin-top: 5px
+  margin-top: 5px;
+  cursor: pointer;
+}
+.charaDelBtn:hover{
+  background-color: #3ab2ae
 }
 
 .charaNone{
@@ -313,6 +344,9 @@ a{
   width: 200px;
   margin: 20px;
   padding: 10px
+}
+.charaCard:hover{
+  background-color: #cbcbcb
 }
 .delCharaDiv{
   display: flex;
@@ -343,7 +377,9 @@ a{
   height: 25px;
   width: 75px
 }
-
+.newCharaCancel:hover{
+  background-color: #3ab2ae
+}
 .newCharaAdd{
   background-color: #3ebfbb;
   border-radius: 3px;
@@ -351,6 +387,9 @@ a{
   margin: 5px;
   height: 25px;
   width: 150px
+}
+.newCharaAdd:hover{
+  background-color: #3ab2ae
 }
 .newCharaH1{
   font-size: 1.75vw;
@@ -388,7 +427,11 @@ a{
   border-radius: 3px;
   border-style: none;
   margin: 5px 2.5px 0 2.5px;
-  height: 25px
+  height: 25px;
+  cursor: pointer;
+}
+.editCharaResUp:hover{
+  background-color: #3ab2ae
 }
 .editCharaH1{
   font-size: 1.75vw;
@@ -456,10 +499,19 @@ a{
 .titleH2{
   font-size: 1.75vw;
   margin: 5px;
+  cursor: text
 }
-
+.titleH2:hover{
+  text-decoration: underline;
+  text-decoration-color: #e5bb36
+}
 .sumamryPara{
   margin: 5px;
+  cursor: text
+}
+.sumamryPara:hover{
+  text-decoration: underline;
+  text-decoration-color: #e5bb36
 }
 .plotsHead{
   display: flex;
@@ -473,10 +525,18 @@ a{
   padding: 5px;
   font-family: 'Abel', sans-serif;
   font-size: 1.25vw;
-  margin: 10px 
+  margin: 10px;
+  cursor: pointer; 
+}
+.plotBtns:hover{
+  background-color: #cda21b
 }
 .treeH2{
   font-size: 2vw;
+}
+.treeH2:hover{
+  text-decoration: underline;
+  text-decoration-color: #a07f15
 }
 .plotSelect{
   border-radius: 2px;

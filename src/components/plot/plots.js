@@ -94,7 +94,7 @@ class Plots extends Component {
         //axios call for titles and three default tree arrays
         axios.get(`/api/getPlotContent/${storyid}`)
             .then(res => {
-                console.log(res)
+                // console.log(res)
                 if(res.data.titles[2]){
                 this.setState({ titles: res.data.titles, tree1: res.data.tree1, tree2: res.data.tree2, tree3: res.data.tree3, tree1id: res.data.titles[0].treeid, tree2id: res.data.titles[1].treeid, tree3id: res.data.titles[2].treeid, tree1Title: res.data.titles[0].title, tree2Title: res.data.titles[1].title, tree3Title: res.data.titles[2].title }, this.threeTreesMap)
                 }else if(res.data.titles[1]){
@@ -155,7 +155,8 @@ class Plots extends Component {
         axios.post(`/api/createTree/${storyid}`, { treeInput })
             //set titles for selector and set tree title
             .then((res) => {
-                this.setState({ tree1: [], titles: res.data, tree1Title: res.data[0].title }, this.toggleTree())
+                this.setState({titles: res.data, tree1Title: res.data[0].title, tree1id: res.data[0].treeid })
+                // console.log('tree', res.data)
             })
     }
     updateTree(treeid) {
@@ -411,29 +412,50 @@ class Plots extends Component {
                 this.setState({ tree1: res.data }, this.tree1Map)
             })
     }
-    changeTree2(treeid) {
+    changeTree2(id) {
         let storyid = this.props.match.params.storyid
 
-        this.setState({ tree2id: treeid })
+        let title = this.state.titles.filter(e => {
+            return Number(id) === e.treeid
+        })
+        this.setState({ tree2id: id, tree2Title: title[0].title })
 
-        axios.get(`/api/tree/${treeid}/${storyid}`)
+        axios.get(`/api/tree/${id}/${storyid}`)
             .then(res => {
-                this.setState({ tree2: res }, this.tree2Map)
+                this.setState({ tree2: res.data }, this.tree2Map)
             })
+        
+        
+        // this.setState({ tree2id: treeid })
+
+        // axios.get(`/api/tree/${treeid}/${storyid}`)
+        //     .then(res => {
+        //         this.setState({ tree2: res }, this.tree2Map)
+        //     })
     }
-    changeTree3(treeid) {
+    changeTree3(id) {
         let storyid = this.props.match.params.storyid
 
-        this.setState({ tree3id: treeid })
+        let title = this.state.titles.filter(e => {
+            return Number(id) === e.treeid
+        })
+        this.setState({ tree3id: id, tree3Title: title[0].title })
 
-        axios.get(`/api/tree/${treeid}/${storyid}`)
+        axios.get(`/api/tree/${id}/${storyid}`)
             .then(res => {
-                this.setState({ tree3: res }, this.tree3Map)
+                this.setState({ tree3: res.data }, this.tree3Map)
             })
+
+        // this.setState({ tree3id: treeid })
+
+        // axios.get(`/api/tree/${treeid}/${storyid}`)
+        //     .then(res => {
+        //         this.setState({ tree3: res }, this.tree3Map)
+        //     })
     }
 
     render() {
-        console.log(this.state.modalToggle, this.state.currentTree, this.state.tree1id)
+        // console.log('model', this.state.modalToggle, this.state.currentTree, this.state.tree1id)
         let { title } = this.props.match.params
         return (
             <div className='plotsBod'>
@@ -479,7 +501,7 @@ class Plots extends Component {
                         <button className='plotBtns' onClick={() => this.toggleModal(this.state.tree1id)}>Add Plot Card</button>
                         <div >
                             {this.tree1Map()}
-                            {this.state.modalToggle && this.state.currentModal === this.state. tree1id ?
+                            {this.state.modalToggle && this.state.currentModal === this.state.tree1id ?
                                 <Modal toggleModal={this.toggleModal} toggle={this.state.modalToggle} treeid={this.state.tree1id} tree1Map={this.tree1Map} />
                                 : null
                             }
