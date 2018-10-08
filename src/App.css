@@ -156,6 +156,9 @@ body{
   /* box-shadow: 1px 2px #49796b; */
   background-color: 	#a3c1ad;
 }
+.loginBtn:hover{
+  background-color: #99baa4
+}
 /* nav */
 .navMain{
   background-color: #49796b;
