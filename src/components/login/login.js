@@ -7,7 +7,7 @@ export default class Login extends Component{
 
         this.state={
             txt: [],
-            val: 0
+            val: 130
         }
 
     }
@@ -22,11 +22,14 @@ export default class Login extends Component{
     //change compnentdidmount
    async componentDidMount(){
         let quoter = await axios.get('https://quotes.rest/qod')
-        console.log(quoter)
+        // console.log(quoter)
         let quoteVal = quoter.data.contents.quotes[0].length
         let quoteTxt = quoter.data.contents.quotes[0].quote.split('')
+        let keepTxt = quoteTxt.slice(0, 130)
 
-        this.setState({txt: quoteTxt, val: quoteVal})
+        // console.log(keepTxt)
+
+        this.setState({txt: keepTxt})
         //set txt to state
         //do the for each in render
    

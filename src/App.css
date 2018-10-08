@@ -158,6 +158,7 @@ body{
   background-color: #49796b;
   /* box-shadow: 1px 1px 		#a3c1ad; */
   height: 10vh;
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -171,14 +172,15 @@ body{
   color: white
 }
 .navBtn{
-  box-shadow: 1px 2px #49796b;
-  background-color: 	#a3c1ad;
-  border-radius: 3px;
+  /* box-shadow: 1px 2px #49796b; */
+  background-color: 	#49796b;
+  /* border-radius: 3px; */
   border-style: none;
   color: white;
   width: 8vw;
   height: 6vh;
-  font-size: 1em
+  font-size: 1em;
+  margin-right: 10px
 }
 a{
   text-decoration: none
@@ -324,7 +326,7 @@ a{
 }
 .addBody{
   background-color: #dcdcdc;
-  width: 20vw;
+  /* width: 20vw; */
   margin-top: 5vh;
   padding: 20px;
   display: flex;
