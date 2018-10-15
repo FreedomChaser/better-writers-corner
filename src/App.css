@@ -277,7 +277,7 @@ a{
 /* chara */
 .charaH1{
   color: #e4f6f6;
-  font-size: 2.5vw;
+  font-size: 42px;
   margin: 10px
 }
 .charaBod{
@@ -306,7 +306,7 @@ a{
   border-radius: 3px;
   border-style: none;
   height: 40px;
-  font-size: 1.5vw;
+  font-size: 28px;
   cursor: pointer;
   /* padding: 5px */
 }
@@ -315,7 +315,7 @@ a{
 }
 
 .charaH2{
-  font-size: 2vw;
+  font-size: 30px;
   color: black;
 }
 
@@ -338,7 +338,7 @@ a{
 
 .charaNone{
   color: white;
-  font-size: 1.5vw
+  font-size: 42px
 }
 
 .charaCard{
@@ -395,7 +395,7 @@ a{
   background-color: #3ab2ae
 }
 .newCharaH1{
-  font-size: 1.75vw;
+  font-size: 32px;
 }
 .newCharaText{
   margin-bottom: 5px
@@ -437,10 +437,10 @@ a{
   background-color: #3ab2ae
 }
 .editCharaH1{
-  font-size: 1.75vw;
+  font-size: 30;
 }
 .editCharaH2{
-  font-size: 1.25vw;
+  font-size: 30px;
   margin-bottom: 5px
 }
 .editCharaText{
@@ -489,18 +489,19 @@ a{
   color: white;
   border-radius: 3px;
   width: 250px;
-  height: 250px;
+  /* height: 250px; */
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-bottom: 35px
 }
 .plotH1{
   color: #CAE4DB;
-  font-size: 2.5vw;
+  font-size: 42px;
   margin-top: 20px; 
 }
 .titleH2{
-  font-size: 1.75vw;
+  font-size: 26px;
   margin: 5px;
   cursor: text
 }
@@ -527,7 +528,7 @@ a{
   background-color:	#DCAE1D;
   padding: 5px;
   font-family: 'Abel', sans-serif;
-  font-size: 1.25vw;
+  font-size: 20px;
   margin: 10px;
   cursor: pointer; 
 }
@@ -535,7 +536,7 @@ a{
   background-color: #cda21b
 }
 .treeH2{
-  font-size: 2vw;
+  font-size: 30px;
 }
 .treeH2:hover{
   text-decoration: underline;
@@ -546,14 +547,14 @@ a{
   margin: 10px 0 5px 0;
   border-style: 1px solid #7A9D96;
   font-family: 'Abel', sans-serif;
-  font-size: 1.25vw;
+  /* font-size: 1.25vw; */
 }
 .plotInput{
   border-radius: 2px;
   border-style: none;
   padding: 3px;
   font-family: 'Abel', sans-serif;
-  font-size: 1.25vw;
+  font-size: 20px;
   width: 200px;
 }
 .plotText{
@@ -561,7 +562,7 @@ a{
   border-style: none;
   padding: 3px;
   font-family: 'Abel', sans-serif;
-  font-size: 1.25vw;
+  font-size: 18px;
   width: 200px;
 }
 .plotModal{
@@ -575,7 +576,7 @@ a{
   background-color:	#DCAE1D;
   padding: 5px;
   font-family: 'Abel', sans-serif;
-  font-size: 1.25vw;
+  font-size: 20px;
   margin: 10px;
   width: 160px 
 }

@@ -25,11 +25,15 @@ export default class Login extends Component{
         // console.log(quoter)
         let quoteVal = quoter.data.contents.quotes[0].length
         let quoteTxt = quoter.data.contents.quotes[0].quote.split('')
-        let keepTxt = quoteTxt.slice(0, 130)
-
-        // console.log(keepTxt)
-
-        this.setState({txt: keepTxt})
+        if(quoteVal > 130){
+            let keepTxt = quoteTxt.slice(0, 130)
+    
+            // console.log(keepTxt)
+    
+            this.setState({txt: keepTxt})
+        }else{
+            this.setState({val: quoteVal, txt: quoteTxt})
+        }
         //set txt to state
         //do the for each in render
    

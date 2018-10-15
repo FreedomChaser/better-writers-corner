@@ -1,6 +1,6 @@
 Welcome to the Writers Corner repo!
 
-This project was bootstrapped with [Create React App] and also uses react, react-redux, node.js, express, massive, and postgress.
+This project was bootstrapped with [Create React App] and also uses react, react-redux, node.js, express, massive, and postgres.
 
 You can see my live site hosted at https://writersincorners.com.
 
