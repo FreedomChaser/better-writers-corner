@@ -148,8 +148,8 @@ body{
 .loginBtn{
   position: absolute;
   top: 65%;
-  width: 10vw;
-  height: 10vw;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   /* border-style: solid 1px	#49796b; */
   border-style: none;
